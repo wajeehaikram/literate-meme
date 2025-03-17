@@ -10,12 +10,51 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.bunny.net/css?family=montserrat:700,800|poppins:600,700&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    <style>
+        .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-icon {
+            animation: pulse 3s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+        
+        /* Navbar link hover effect */
+        .nav-link-hover {
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-link-hover:hover {
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
@@ -24,8 +63,10 @@
                 <div class="flex justify-between h-16">
                     <div class="flex">
                         <!-- Logo -->
-                        <div class="shrink-0 flex items-center">
-                            <span class="text-xl font-bold text-indigo-600">LearnScape</span>
+                        <div class="flex items-center">
+                            <a href="{{ route('home') }}" class="logo-container">
+                                <span class="logo-text text-xl">LearnScape</span>
+                            </a>
                         </div>
                     </div>
 
@@ -33,15 +74,15 @@
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         @auth
                             @if(Auth::user()->isTutor())
-                                <span onclick="window.location='{{ route('tutor.dashboard') }}'" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-900 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer">Home</span>
-                                <span onclick="window.location='{{ route('tutor.messages') }}'" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer">Messages</span>
-                                <span onclick="window.location='{{ route('tutor.bookings') }}'" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer">Bookings</span>
-                                <span onclick="window.location='{{ route('tutor.resources') }}'" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer">Resources</span>
+                                <span onclick="window.location='{{ route('tutor.dashboard') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-900 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Home</span>
+                                <span onclick="window.location='{{ route('tutor.messages') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Messages</span>
+                                <span onclick="window.location='{{ route('tutor.bookings') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Bookings</span>
+                                <span onclick="window.location='{{ route('tutor.resources') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Resources</span>
                             @else
-                                <span onclick="window.location='{{ route('parent.dashboard') }}';" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-900 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer">Home</span>
-                                <span onclick="window.location='{{ route('parent.messages') }}'" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer">Messages</span>
-                                <span onclick="window.location='{{ route('parent.bookings') }}'; " class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer">Bookings</span>
-                                <span onclick="window.location='{{ route('parent.payments') }}';" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer">Payments</span>
+                                <span onclick="window.location='{{ route('parent.dashboard') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-900 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Home</span>
+                                <span onclick="window.location='{{ route('parent.messages') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Messages</span>
+                                <span onclick="window.location='{{ route('parent.bookings') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Bookings</span>
+                                <span onclick="window.location='{{ route('parent.payments') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Payments</span>
                             @endif
                         @endauth
                     </div>
@@ -59,9 +100,9 @@
                                 </form>
                             </div>
                         @else
-                            <span onclick="window.location='{{ route('about') }}'" class="text-sm text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 px-2 py-1 transition duration-300 ease-in-out cursor-pointer">About</span>
-                            <span onclick="window.location='{{ route('login') }}'" class="ml-4 text-sm text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 px-2 py-1 transition duration-300 ease-in-out cursor-pointer">Log in</span>
-                            <span onclick="window.location='{{ route('register') }}'" class="ml-4 text-sm text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 px-2 py-1 transition duration-300 ease-in-out cursor-pointer">Register</span>
+                            <span onclick="window.location='{{ route('about') }}'; return false;" class="text-sm text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 px-2 py-1 transition duration-300 ease-in-out cursor-pointer nav-link-hover">About</span>
+                            <span onclick="window.location='{{ route('login') }}'; return false;" class="ml-4 text-sm text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 px-2 py-1 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Log in</span>
+                            <span onclick="window.location='{{ route('register') }}'; return false;" class="ml-4 text-sm text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 px-2 py-1 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Register</span>
                         @endauth
                     </div>
                 </div>
@@ -75,8 +116,5 @@
             </div>
         </main>
     </div>
-    
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

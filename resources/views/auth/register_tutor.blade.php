@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.guest')
 
 @section('content')
 <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
@@ -101,13 +101,7 @@
                     @enderror
                 </div>
                 
-                <div>
-                    <label for="hourly_rate" class="block mb-2 text-sm font-medium text-gray-900">Hourly Rate (£)</label>
-                    <input type="number" name="hourly_rate" id="hourly_rate" min="0" step="0.01" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" value="{{ old('hourly_rate') }}" required>
-                    @error('hourly_rate')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
+
                 
                 <div>
                     <label class="block mb-2 text-sm font-medium text-gray-900">Qualifications</label>

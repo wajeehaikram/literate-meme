@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Child extends Model
 {
     protected $fillable = [
-        'parent_id',
+        'user_id',
         'name',
-        'year_group',
-        'exam_board'
+        'year_group'
     ];
 
     /**
@@ -19,6 +19,14 @@ class Child extends Model
      */
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'parent_id');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    
+    /**
+     * Get the subjects that belong to the child
+     */
+    public function subjects(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'child_subject');
     }
 }

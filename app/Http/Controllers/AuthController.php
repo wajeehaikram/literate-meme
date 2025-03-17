@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Subject;
 use App\Models\TutorProfile;
 use App\Models\ParentProfile;
 use Illuminate\Http\Request;
@@ -53,7 +54,7 @@ class AuthController extends Controller
             'bio' => 'nullable|string',
             'subjects' => 'required|array',
             'age_groups' => 'required|array',
-            'hourly_rate' => 'required|numeric|min:0',
+
             'qualifications' => 'nullable|array',
         ]);
 
@@ -73,7 +74,7 @@ class AuthController extends Controller
             'bio' => $request->bio,
             'subjects' => $request->subjects,
             'age_groups' => $request->age_groups,
-            'hourly_rate' => $request->hourly_rate,
+
             'qualifications' => $request->qualifications,
         ]);
 
@@ -112,6 +113,48 @@ class AuthController extends Controller
         Auth::login($user);
 
         return redirect()->route('parent.dashboard');
+    }
+
+    public function editProfile()
+    {
+        $user = Auth::user();
+        $tutorProfile = TutorProfile::where('user_id', $user->id)->first();
+        $subjects = Subject::all();
+        
+        return view('tutor.edit_profile', compact('tutorProfile', 'subjects'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required_with:password',
+            'password' => 'nullable|min:8|confirmed',
+            'bio' => 'nullable|string',
+            'subjects' => 'nullable|array',
+            'qualifications' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        if ($request->filled('password')) {
+            if (!Hash::check($request->current_password, $user->password)) {
+                return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+            }
+            $user->password = Hash::make($request->password);
+            $user->save();
+        }
+
+        $tutorProfile = TutorProfile::where('user_id', $user->id)->first();
+        $tutorProfile->update([
+            'bio' => $request->bio,
+            'subjects' => $request->subjects,
+            'qualifications' => $request->filled('qualifications') ? explode('\n', $request->qualifications) : [],
+        ]);
+
+        return redirect()->route('tutor.dashboard')->with('status', 'Profile updated successfully!');
     }
 
     public function logout(Request $request)

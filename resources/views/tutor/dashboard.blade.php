@@ -79,10 +79,10 @@
                             <div class="text-indigo-600 font-medium">Resources</div>
                             <div class="text-sm text-gray-500 mt-1">Access teaching resources</div>
                         </a>
-                        <div class="bg-white p-4 rounded-lg border border-gray-200 hover:border-indigo-300 hover:shadow-md transition-all duration-300 text-center">
-                            <div class="text-indigo-600 font-medium">Profile</div>
+                        <a href="{{ route('tutor.profile.edit') }}" class="bg-white p-4 rounded-lg border border-gray-200 hover:border-indigo-300 hover:shadow-md transition-all duration-300 text-center">
+                            <div class="text-indigo-600 font-medium">Edit Profile</div>
                             <div class="text-sm text-gray-500 mt-1">Update your profile</div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
