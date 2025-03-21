@@ -32,43 +32,45 @@ class MessagesController extends Controller
         })->orWhere(function($query) use ($userId) {
             $query->where('sender_id', $userId)
                   ->where('receiver_id', Auth::id());
-        })
-        ->orderBy('created_at', 'asc')
-        ->get();
+        })->orderBy('created_at', 'asc')->get();
 
         return view('messages.show', compact('messages', 'otherUser'));
+    }
+
+    public function compose()
+    {
+        $users = User::where('id', '!=', Auth::id())->get();
+        return view('messages.compose', compact('users'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'receiver_id' => 'required|exists:users,id',
-            'content' => 'required|string'
+            'content' => 'required|string|max:1000',
         ]);
 
-        Message::create([
+        $message = Message::create([
             'sender_id' => Auth::id(),
             'receiver_id' => $request->receiver_id,
-            'content' => $request->content
+            'content' => $request->content,
         ]);
 
-        return back()->with('success', 'Message sent successfully');
+        return redirect()->route('messages.show', $request->receiver_id)
+            ->with('success', 'Message sent successfully!');
     }
 
     public function search(Request $request)
     {
-        $query = $request->get('query');
-        $userType = Auth::user()->user_type === 'tutor' ? 'parent' : 'tutor';
-        
-        $users = User::where('name', 'like', "%{$query}%")
-            ->where('user_type', $userType)
-            ->get();
-
+        $query = $request->input('query');
+        $users = User::where('user_type', 'parent')
+            ->where(function($q) use ($query) {
+                $q->where('email', 'like', "%{$query}%")
+                  ->orWhere('name', 'like', "%{$query}%");
+            })
+            ->where('id', '!=', Auth::id())
+            ->take(5)
+            ->get(['id', 'name', 'email']);
         return response()->json($users);
-    }
-
-    public function compose()
-    {
-        return view('messages.compose');
     }
 }

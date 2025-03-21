@@ -1,24 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold text-gray-900">Messages</h1>
-        <p class="mt-2 text-gray-600">Communicate with your tutors.</p>
-    </div>
-
-    <div class="mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
-            <div class="p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-xl font-semibold text-gray-900">Your Conversations</h2>
-                    <button class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                        New Message
-                    </button>
+<div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6 bg-white border-b border-gray-200">
+                <h1 class="text-2xl font-semibold text-gray-900 mb-6">Messages</h1>
+                
+                <!-- Messages Section -->
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-medium text-gray-800">Your Conversations</h2>
+                        <div>
+                            <button onclick="window.location.href='{{ route("messages.compose") }}'" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300">
+                                New Message
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Message List -->
+                    <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                        <div class="p-6 text-center text-gray-500">
+                            <p>You don't have any messages yet.</p>
+                            <p class="mt-2 text-sm">When you receive messages from tutors, they will appear here.</p>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="border-t border-gray-200 pt-4">
-                    <p class="text-gray-500 text-sm text-center py-8">You don't have any messages yet.</p>
+                <!-- Message Tips -->
+                <div class="bg-indigo-50 rounded-lg p-6 shadow-sm">
+                    <h3 class="text-lg font-medium text-indigo-800 mb-2">Communication Tips</h3>
+                    <ul class="list-disc pl-5 text-indigo-700 space-y-1">
+                        <li><span class="text-gray-600">Expect responses from tutors within 24 hours</span></li>
+                        <li><span class="text-gray-600">Keep communication professional and friendly</span></li>
+                        <li><span class="text-gray-600">Use the messaging system for all tutor communications</span></li>
+                        <li><span class="text-gray-600">Report any inappropriate messages to our support team</span></li>
+                    </ul>
                 </div>
             </div>
         </div>

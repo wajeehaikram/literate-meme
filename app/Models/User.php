@@ -54,7 +54,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function isTutor(): bool
+    public function isTutor()
     {
         return $this->user_type === 'tutor';
     }

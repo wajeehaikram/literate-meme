@@ -20,6 +20,7 @@
                         @auth
                             <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-indigo-600 transition">Dashboard</a>
                         @else
+                            <a href="{{ url('/') }}" class="text-gray-700 hover:text-indigo-600 transition">Home</a>
                             <a href="{{ route('about') }}" class="text-gray-700 hover:text-indigo-600 transition">About</a>
                             <a href="{{ route('login') }}" class="text-gray-700 hover:text-indigo-600 transition">Log in</a>
                             @if (Route::has('register'))

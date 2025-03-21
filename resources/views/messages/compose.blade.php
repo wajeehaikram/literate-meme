@@ -62,7 +62,10 @@
                         <a href="#" class="list-group-item list-group-item-action" 
                            data-user-id="${user.id}" 
                            data-user-name="${user.name}">
-                            ${user.name}
+                            <div class="d-flex flex-column">
+                                <strong>${user.name}</strong>
+                                <small class="text-muted">${user.email}</small>
+                            </div>
                         </a>
                     `).join('');
 
@@ -85,6 +88,38 @@
                     });
                 });
         }, 300);
+    });
+
+    // Add keypress event listener for Enter key
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const query = this.value.trim();
+            
+            if (query.length >= 2) {
+                fetch(`/messages/search?query=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(users => {
+                        if (users.length > 0) {
+                            // Automatically select the first user
+                            const firstUser = users[0];
+                            
+                            // Set the receiver ID and name
+                            receiverIdInput.value = firstUser.id;
+                            recipientNameSpan.textContent = firstUser.name;
+                            
+                            // Hide search results and show the message form
+                            searchResults.innerHTML = '';
+                            searchInput.value = '';
+                            messageForm.style.display = 'block';
+                        } else {
+                            searchResults.innerHTML = '<div class="list-group-item">No users found</div>';
+                        }
+                    });
+            } else {
+                searchResults.innerHTML = '';
+            }
+        }
     });
 </script>
 @endpush

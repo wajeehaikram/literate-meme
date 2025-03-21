@@ -12,7 +12,7 @@
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-medium text-gray-800">Your Conversations</h2>
                         <div>
-                            <button class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300">
+                            <button onclick="window.location.href='{{ route("messages.compose") }}'" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300">
                                 New Message
                             </button>
                         </div>
