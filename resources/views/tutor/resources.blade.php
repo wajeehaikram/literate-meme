@@ -64,7 +64,7 @@
                 <div class="bg-indigo-50 rounded-lg p-6 shadow-sm">
                     <h3 class="text-lg font-medium text-indigo-800 mb-2">Resource Tips</h3>
                     <ul class="list-disc pl-5 text-indigo-700 space-y-1">
-                        <li><span class="text-gray-600">Organize resources by subject and topic for easy access</span></li>
+                        <li><span class="text-gray-600">Organise resources by subject and topic for easy access</span></li>
                         <li><span class="text-gray-600">Use clear file names that describe the content</span></li>
                         <li><span class="text-gray-600">Upload resources in common file formats (PDF, DOCX, PPTX)</span></li>
                         <li><span class="text-gray-600">Share resources with students before and after sessions</span></li>
