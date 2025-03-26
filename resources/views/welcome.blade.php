@@ -33,6 +33,179 @@
         </div>
     </nav>
 
+    <!-- Slideshow Section -->
+    <div class="slideshow-container pt-16">
+        <div class="slideshow-slides">
+            <div class="slide fade">
+                <img src="{{ asset('images/Slide_2.jpg') }}" alt="Students learning" class="w-full h-auto">
+                <div class="slide-caption">
+                    <h2>Personalized Learning Experience</h2>
+                    <p>One-on-one tutoring tailored to your needs</p>
+                </div>
+            </div>
+            <div class="slide fade">
+                <img src="{{ asset('images/Slide_1.jpg') }}" alt="Teacher and student" class="w-full h-auto">
+                <div class="slide-caption">
+                    <h2>Expert Tutors</h2>
+                    <p>Learn from qualified professionals in your field</p>
+                </div>
+            </div>
+        </div>
+        <div class="slideshow-dots">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+        </div>
+    </div>
+
+    <style>
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: auto;
+            overflow: hidden;
+            height: 500px;
+        }
+        
+        .slideshow-slides {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .slide-caption {
+            position: absolute;
+            bottom: 20%;
+            left: 10%;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            max-width: 50%;
+        }
+        
+        .slide-caption h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .slide-caption p {
+            font-size: 1.2rem;
+        }
+        
+        .slideshow-dots {
+            text-align: center;
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+        }
+        
+        .dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.6s ease;
+        }
+        
+        .active, .dot:hover {
+            background-color: #717171;
+        }
+        
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+        
+        @keyframes fade {
+            from {opacity: .4} 
+            to {opacity: 1}
+        }
+        
+        @media (max-width: 768px) {
+            .slideshow-container {
+                height: 350px;
+            }
+            
+            .slide-caption {
+                max-width: 80%;
+                left: 5%;
+            }
+            
+            .slide-caption h2 {
+                font-size: 1.4rem;
+            }
+            
+            .slide-caption p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let slideIndex = 0;
+            showSlides();
+            
+            function showSlides() {
+                let i;
+                let slides = document.getElementsByClassName("slide");
+                let dots = document.getElementsByClassName("dot");
+                
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.opacity = "0";
+                }
+                
+                slideIndex++;
+                if (slideIndex > slides.length) {slideIndex = 1}
+                
+                for (i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" active", "");
+                }
+                
+                slides[slideIndex-1].style.opacity = "1";
+                dots[slideIndex-1].className += " active";
+                
+                setTimeout(showSlides, 5000); // Change image every 5 seconds
+            }
+            
+            window.currentSlide = function(n) {
+                slideIndex = n - 1;
+                let slides = document.getElementsByClassName("slide");
+                let dots = document.getElementsByClassName("dot");
+                
+                for (let i = 0; i < slides.length; i++) {
+                    slides[i].style.opacity = "0";
+                }
+                
+                for (let i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" active", "");
+                }
+                
+                slides[slideIndex].style.opacity = "1";
+                dots[slideIndex].className += " active";
+            }
+        });
+    </script>
+
     <!-- Hero Section -->
     <div class="relative pt-24">
         <div class="mx-auto max-w-7xl px-6 py-20 sm:py-32 lg:px-8">
@@ -53,15 +226,15 @@
             <dl class="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-4">
                 <div class="mx-auto flex max-w-xs flex-col gap-y-4">
                     <dt class="text-base leading-7 text-gray-600">Active Tutors</dt>
-                    <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900">500+</dd>
+                    <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900">50+</dd>
                 </div>
                 <div class="mx-auto flex max-w-xs flex-col gap-y-4">
                     <dt class="text-base leading-7 text-gray-600">Students Helped</dt>
-                    <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900">2000+</dd>
+                    <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900">200+</dd>
                 </div>
                 <div class="mx-auto flex max-w-xs flex-col gap-y-4">
                     <dt class="text-base leading-7 text-gray-600">Subjects Covered</dt>
-                    <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900">50+</dd>
+                    <dd class="order-first text-3xl font-semibold tracking-tight text-gray-900">6+</dd>
                 </div>
                 <div class="mx-auto flex max-w-xs flex-col gap-y-4">
                     <dt class="text-base leading-7 text-gray-600">Success Rate</dt>

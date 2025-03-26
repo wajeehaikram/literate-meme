@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\StripeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -66,9 +67,8 @@ Route::get('/parent/bookings', function() {
     return view('parent.bookings');
 })->name('parent.bookings')->middleware('auth');
 
-Route::get('/parent/payments', function() {
-    return view('parent.payments');
-})->name('parent.payments')->middleware('auth');
+Route::get('/parent/payments', [App\Http\Controllers\PaymentController::class, 'showPayments'])->name('parent.payments')->middleware('auth');
+Route::get('/parent/add-card', [App\Http\Controllers\PaymentController::class, 'showAddCard'])->name('parent.add-card')->middleware('auth');
 
 Route::get('/parent/find-tutors', function() {
     return 'Find Tutors';
@@ -98,3 +98,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/messages', [MessagesController::class, 'store'])->name('messages.store');
     Route::get('/messages/search', [MessagesController::class, 'search'])->name('messages.search');
 });
+
+// Payment Routes
+Route::post('/payment/intent', [App\Http\Controllers\PaymentController::class, 'createPaymentIntent'])->name('payment.intent');
+Route::post('/payment/store', [App\Http\Controllers\PaymentController::class, 'store'])->name('payment.store')->middleware('auth');
+Route::post('/stripe/webhook', [App\Http\Controllers\PaymentController::class, 'handleWebhook'])->name('stripe.webhook');
+
+Route::get('/stripe', [StripeController::class, 'index'])->name('stripe.index');
+Route::post('/stripe/charge', [StripeController::class, 'charge'])->name('stripe.charge');
+Route::get('/payment/success', function() {
+    return view('payment.success');
+})->name('payment.success');

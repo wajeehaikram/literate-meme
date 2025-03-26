@@ -64,9 +64,7 @@
                     <div class="flex">
                         <!-- Logo -->
                         <div class="flex items-center">
-                            <a href="{{ route('home') }}" class="logo-container">
-                                <span class="logo-text text-xl">LearnScape</span>
-                            </a>
+                            <a href="{{ route('home') }}" class="text-2xl font-bold text-indigo-600">LearnScape</a>
                         </div>
                     </div>
 

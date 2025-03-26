@@ -11,17 +11,13 @@
                 <div class="mb-8">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-medium text-gray-800">Payment Methods</h2>
-                        <div>
-                            <button class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300">
-                                Add Payment Method
-                            </button>
-                        </div>
+                        <a href="{{ route('parent.add-card') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Add Card
+                        </a>
                     </div>
                     
-                    <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                        <div class="p-6 text-center text-gray-500">
-                            <p>You don't have any payment methods added yet.</p>
-                        </div>
+                    <div class="bg-white rounded-lg border border-gray-200 overflow-hidden p-6">
+                        <p class="text-center text-gray-500">No payment methods available.</p>
                     </div>
                 </div>
                 
@@ -51,19 +47,16 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Payment Tips -->
-                <div class="bg-indigo-50 rounded-lg p-6 shadow-sm">
-                    <h3 class="text-lg font-medium text-indigo-800 mb-2">Payment Tips</h3>
-                    <ul class="list-disc pl-5 text-indigo-700 space-y-1">
-                        <li><span class="text-gray-600">Keep your payment methods up to date</span></li>
-                        <li><span class="text-gray-600">Review transaction history regularly</span></li>
-                        <li><span class="text-gray-600">Contact support for any payment issues</span></li>
-                        <li><span class="text-gray-600">Ensure sufficient funds before booking sessions</span></li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    // Initialize Stripe for future use
+    const stripe = Stripe('{{ env("STRIPE_KEY") }}');
+</script>
+@endpush
