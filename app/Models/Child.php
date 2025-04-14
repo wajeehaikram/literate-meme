@@ -2,31 +2,30 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Child extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
-        'user_id',
+        'parent_id',
         'name',
-        'year_group'
+        'year_group',
+        'subjects',
+    ];
+
+    protected $casts = [
+        'subjects' => 'array',
     ];
 
     /**
-     * Get the parent that owns the child
+     * Get the parent that owns the child.
      */
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-    
-    /**
-     * Get the subjects that belong to the child
-     */
-    public function subjects(): BelongsToMany
-    {
-        return $this->belongsToMany(Subject::class, 'child_subject');
+        return $this->belongsTo(User::class, 'parent_id');
     }
 }

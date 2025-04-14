@@ -58,49 +58,39 @@
 </head>
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
-        <nav class="bg-white border-b border-gray-100">
+        <nav class="bg-white shadow-sm fixed w-full z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
-                    <div class="flex">
-                        <!-- Logo -->
-                        <div class="flex items-center">
-                            <a href="{{ route('home') }}" class="text-2xl font-bold text-indigo-600">LearnScape</a>
-                        </div>
+                    <div class="flex items-center">
+                        <a href="{{ route('home') }}" class="text-2xl font-bold text-indigo-600">LearnScape</a>
                     </div>
-
-                    <!-- Navigation Links -->
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <div class="flex items-center space-x-8">
                         @auth
                             @if(Auth::user()->isTutor())
-                                <span onclick="window.location='{{ route('tutor.dashboard') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-900 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Home</span>
-                                <span onclick="window.location='{{ route('tutor.messages') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Messages</span>
-                                <span onclick="window.location='{{ route('tutor.bookings') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Bookings</span>
-                                <span onclick="window.location='{{ route('tutor.resources') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Resources</span>
+                                <a href="{{ route('tutor.dashboard') }}" class="text-gray-700 hover:text-indigo-600 transition">Home</a>
+                                <a href="{{ route('tutor.messages') }}" class="text-gray-700 hover:text-indigo-600 transition">Messages</a>
+                                <a href="{{ route('tutor.bookings') }}" class="text-gray-700 hover:text-indigo-600 transition">Bookings</a>
+                                <a href="{{ route('tutor.resources') }}" class="text-gray-700 hover:text-indigo-600 transition">Resources</a>
                             @else
-                                <span onclick="window.location='{{ route('parent.dashboard') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-900 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Home</span>
-                                <span onclick="window.location='{{ route('parent.messages') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Messages</span>
-                                <span onclick="window.location='{{ route('parent.bookings') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Bookings</span>
-                                <span onclick="window.location='{{ route('parent.payments') }}'; return false;" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Payments</span>
+                                <a href="{{ route('parent.dashboard') }}" class="text-gray-700 hover:text-indigo-600 transition">Home</a>
+                                <a href="{{ route('parent.messages') }}" class="text-gray-700 hover:text-indigo-600 transition">Messages</a>
+                                <a href="{{ route('parent.bookings') }}" class="text-gray-700 hover:text-indigo-600 transition">Bookings</a>
+                                <a href="{{ route('parent.payments') }}" class="text-gray-700 hover:text-indigo-600 transition">Payments</a>
                             @endif
-                        @endauth
-                    </div>
-
-                    <!-- Settings Dropdown -->
-                    <div class="hidden sm:flex sm:items-center sm:ml-6">
-                        @auth
-                            <div class="relative">
-                                <button class="flex items-center text-sm font-medium text-gray-500 hover:text-indigo-600 focus:text-indigo-700 transition duration-300 ease-in-out">
-                                    {{ Auth::user()->name }}
-                                </button>
-                                <form method="POST" action="{{ route('logout') }}" class="inline">
+                            <div class="relative flex flex-col items-end">
+                                <span class="text-gray-700 font-medium mb-1">{{ Auth::user()->name }}</span>
+                                <form method="POST" action="{{ route('logout') }}" class="w-full">
                                     @csrf
-                                    <button type="submit" class="ml-4 text-sm text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 focus:text-indigo-700 px-2 py-1 rounded transition duration-300 ease-in-out">Logout</button>
+                                    <button type="submit" class="text-gray-700 hover:text-indigo-600 transition w-full text-right">Logout</button>
                                 </form>
                             </div>
                         @else
-                            <span onclick="window.location='{{ route('about') }}'; return false;" class="text-sm text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 px-2 py-1 transition duration-300 ease-in-out cursor-pointer nav-link-hover">About</span>
-                            <span onclick="window.location='{{ route('login') }}'; return false;" class="ml-4 text-sm text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 px-2 py-1 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Log in</span>
-                            <span onclick="window.location='{{ route('register') }}'; return false;" class="ml-4 text-sm text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 px-2 py-1 transition duration-300 ease-in-out cursor-pointer nav-link-hover">Register</span>
+                            <a href="{{ url('/') }}" class="text-gray-700 hover:text-indigo-600 transition">Home</a>
+                            <a href="{{ route('about') }}" class="text-gray-700 hover:text-indigo-600 transition">About</a>
+                            <a href="{{ route('login') }}" class="text-gray-700 hover:text-indigo-600 transition">Log in</a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Get Started</a>
+                            @endif
                         @endauth
                     </div>
                 </div>
@@ -108,7 +98,7 @@
         </nav>
 
         <!-- Page Content -->
-        <main class="py-12">
+        <main class="pt-24 pb-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 @yield('content')
             </div>

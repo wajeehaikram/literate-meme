@@ -7,6 +7,16 @@
     <title>{{ config('app.name', 'LearnScape') }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        /* Navbar link hover effect */
+        .nav-link-hover {
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-link-hover:hover {
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body class="antialiased bg-white">
     <!-- Navigation -->
@@ -19,7 +29,7 @@
                 <div class="flex items-center space-x-4">
                     @if (Route::has('login'))
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-indigo-600 transition">Dashboard</a>
+                            <a href="{{ url('/dashboard') }}" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:text-indigo-600 hover:border-b-2 hover:border-indigo-400 focus:text-indigo-700 focus:border-b-2 focus:border-indigo-600 transition duration-300 ease-in-out nav-link-hover">Dashboard</a>
                         @else
                             <a href="{{ url('/') }}" class="text-gray-700 hover:text-indigo-600 transition">Home</a>
                             <a href="{{ route('about') }}" class="text-gray-700 hover:text-indigo-600 transition">About</a>
@@ -34,7 +44,7 @@
         </div>
     </nav>
 
-    <div class="pt-16">
+    <div>
         @yield('content')
     </div>
 </body>

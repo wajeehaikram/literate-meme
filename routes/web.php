@@ -47,16 +47,20 @@ Route::get('/tutor/resources', function() {
     return view('tutor.resources');
 })->name('tutor.resources')->middleware('auth');
 
-Route::get('/tutor/availability', function() {
-    return 'Tutor Availability';
-})->name('tutor.availability')->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/tutor/availability', [\App\Http\Controllers\TutorAvailabilityController::class, 'index'])->name('tutor.availability');
+    Route::post('/tutor/availability', [\App\Http\Controllers\TutorAvailabilityController::class, 'update'])->name('tutor.availability.update');
+});
 
 Route::get('/tutor/sessions', function() {
     return 'Tutor Sessions';
 })->name('tutor.sessions')->middleware('auth');
 
 Route::get('/parent/dashboard', function() {
-    return view('parent.dashboard');
+    $tutors = App\Models\User::whereHas('tutorProfile')
+        ->with(['tutorProfile'])
+        ->get();
+    return view('parent.dashboard', compact('tutors'));
 })->name('parent.dashboard')->middleware('auth');
 
 Route::get('/parent/messages', function() {
@@ -82,13 +86,13 @@ Route::get('/tutor/profile/edit', [AuthController::class, 'editProfile'])->name(
 Route::put('/tutor/profile/update', [AuthController::class, 'updateProfile'])->name('tutor.profile.update')->middleware('auth');
 
 // Child Management Routes
-Route::get('/children/create', function() {
-    return view('parent.create_child');
-})->name('child.create')->middleware('auth');
-Route::post('/children', [App\Http\Controllers\ChildController::class, 'store'])->name('child.store');
-Route::get('/children/{child}/edit', [App\Http\Controllers\ChildController::class, 'edit'])->name('child.edit');
-Route::put('/children/{child}', [App\Http\Controllers\ChildController::class, 'update'])->name('child.update');
-Route::delete('/children/{child}', [App\Http\Controllers\ChildController::class, 'destroy'])->name('child.destroy');
+Route::middleware('auth')->group(function () {
+    Route::get('/parent/children/create', [App\Http\Controllers\ChildController::class, 'create'])->name('parent.children.create');
+    Route::post('/parent/children', [App\Http\Controllers\ChildController::class, 'store'])->name('parent.children.store');
+    Route::get('/parent/children/{child}/edit', [App\Http\Controllers\ChildController::class, 'edit'])->name('parent.children.edit');
+    Route::put('/parent/children/{child}', [App\Http\Controllers\ChildController::class, 'update'])->name('parent.children.update');
+    Route::delete('/parent/children/{child}', [App\Http\Controllers\ChildController::class, 'destroy'])->name('parent.children.destroy');
+});
 
 // Message Routes
 Route::middleware('auth')->group(function () {
@@ -97,6 +101,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/messages/{user}', [MessagesController::class, 'show'])->name('messages.show');
     Route::post('/messages', [MessagesController::class, 'store'])->name('messages.store');
     Route::get('/messages/search', [MessagesController::class, 'search'])->name('messages.search');
+    Route::get('/parent/messages/create/{tutor_id}', [MessagesController::class, 'compose'])->name('parent.messages.create');
 });
 
 // Payment Routes

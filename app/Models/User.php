@@ -48,6 +48,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the tutor's availability schedule.
+     */
+    public function tutorAvailability(): HasMany
+    {
+        return $this->hasMany(TutorAvailability::class, 'tutor_id');
+    }
     
     /**
      * Check if the user is a tutor
@@ -96,10 +104,10 @@ class User extends Authenticatable
     }
     
     /**
-     * Get the children associated with the parent user
+     * Get the children associated with the parent user.
      */
-    public function children(): HasMany
+    public function children()
     {
-        return $this->hasMany(Child::class, 'user_id');
+        return $this->hasMany(Child::class, 'parent_id');
     }
 }

@@ -43,13 +43,66 @@
                     <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
                         <div class="p-6 text-center text-gray-500">
                             <p>You don't have any upcoming sessions.</p>
-                            <button class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300">
+                            <a href="{{ route('tutor.availability') }}" class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300 inline-block">
                                 Update Availability
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
                 
+                <!-- Availability Schedule -->
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-medium text-gray-800">Your Availability Schedule</h2>
+                    </div>
+                    <div class="bg-white rounded-lg border border-gray-200 overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Period</th>
+                                    @foreach(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as $day)
+                                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $day }}</th>
+                                    @endforeach
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @php
+                                    $periods = [
+                                        ['label' => 'Pre 12pm', 'start' => '09:00:00', 'end' => '12:00:00', 'icon' => '☀️'],
+                                        ['label' => '12 - 5pm', 'start' => '12:00:00', 'end' => '17:00:00', 'icon' => '⌚'],
+                                        ['label' => 'After 5pm', 'start' => '17:00:00', 'end' => '21:00:00', 'icon' => '🌙']
+                                    ];
+                                    $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                                @endphp
+
+                                @foreach($periods as $period)
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            <div class="flex items-center gap-2">
+                                                <span>{{ $period['icon'] }}</span>
+                                                <span>{{ $period['label'] }}</span>
+                                            </div>
+                                        </td>
+                                        @foreach($days as $day)
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
+                                                @php
+                                                    $periodKey = str_replace(' ', '_', strtolower($period['label']));
+                                                    $isAvailable = $schedule[ucfirst($day)][$periodKey] ?? false;
+                                                @endphp
+                                                @if($isAvailable)
+                                                    <span class="text-green-600 font-medium">✓</span>
+                                                @else
+                                                    <span class="text-gray-400">—</span>
+                                                @endif
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <!-- Recent Messages -->
                 <div class="mb-8">
                     <div class="flex justify-between items-center mb-4">

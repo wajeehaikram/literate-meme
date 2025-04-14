@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('stripe_payment_id')->unique();
+            $table->string('stripe_payment_method_id')->nullable();
+            $table->decimal('amount', 10, 2);
+            $table->string('currency')->default('gbp');
+            $table->string('status');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

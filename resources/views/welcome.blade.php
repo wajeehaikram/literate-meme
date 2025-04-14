@@ -1,210 +1,137 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LearnScape - Online Tutoring Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="antialiased bg-white">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-sm fixed w-full z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="/" class="text-2xl font-bold text-indigo-600">LearnScape</a>
-                </div>
-                <div class="flex items-center space-x-4">
-                    @if (Route::has('login'))
-                        @auth
-                            <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-indigo-600 transition">Dashboard</a>
-                        @else
-                            <a href="{{ url('/') }}" class="text-gray-700 hover:text-indigo-600 transition">Home</a>
-                            <a href="{{ route('about') }}" class="text-gray-700 hover:text-indigo-600 transition">About</a>
-                            <a href="{{ route('login') }}" class="text-gray-700 hover:text-indigo-600 transition">Log in</a>
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Get Started</a>
-                            @endif
-                        @endauth
-                    @endif
-                </div>
-            </div>
-        </div>
-    </nav>
+@extends('layouts.guest')
+
+@section('content')
+<style>
+    /* Slideshow styles */
+    .slideshow-container {
+        position: relative;
+        max-width: 100%;
+        margin-top: 4rem;
+        overflow: hidden;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+    .slide {
+        position: absolute;
+        width: 100%;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+    }
+    .slide img {
+        width: 100%;
+        height: 550px;
+        object-fit: cover;
+    }
+    .slide.active {
+        opacity: 1;
+        visibility: visible;
+        position: relative;
+    }
+    .slide-caption {
+        position: absolute;
+        bottom: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+        color: white;
+        width: 100%;
+        padding: 2rem 1.5rem 1.5rem;
+        text-align: center;
+    }
+    .slide-caption h2 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+    .slide-caption p {
+        font-size: 1.25rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    .slide-nav {
+        text-align: center;
+        padding: 1rem 0;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        z-index: 20;
+    }
+    .slide-nav-dot {
+        display: inline-block;
+        height: 12px;
+        width: 12px;
+        margin: 0 6px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    .slide-nav-dot:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        transform: scale(1.2);
+    }
+    .slide-nav-dot.active {
+        background-color: white;
+        transform: scale(1.2);
+        border: 2px solid rgba(79, 70, 229, 0.6);
+    }
+
+    @media (max-width: 768px) {
+        .slide img {
+            height: 350px;
+        }
+        .slide-caption h2 {
+            font-size: 1.5rem;
+        }
+        .slide-caption p {
+            font-size: 1rem;
+        }
+    }
+</style>
 
     <!-- Slideshow Section -->
-    <div class="slideshow-container pt-16">
-        <div class="slideshow-slides">
-            <div class="slide fade">
-                <img src="{{ asset('images/Slide_2.jpg') }}" alt="Students learning" class="w-full h-auto">
-                <div class="slide-caption">
-                    <h2>Personalized Learning Experience</h2>
-                    <p>One-on-one tutoring tailored to your needs</p>
-                </div>
-            </div>
-            <div class="slide fade">
-                <img src="{{ asset('images/Slide_1.jpg') }}" alt="Teacher and student" class="w-full h-auto">
-                <div class="slide-caption">
-                    <h2>Expert Tutors</h2>
-                    <p>Learn from qualified professionals in your field</p>
-                </div>
+    <div class="slideshow-container">
+        <div class="slide active">
+            <img src="{{ asset('images/Slide_1.jpg') }}" alt="Slide 1">
+            <div class="slide-caption">
+                <h2>Welcome to LearnScape</h2>
+                <p>Your journey to academic success starts here</p>
             </div>
         </div>
-        <div class="slideshow-dots">
-            <span class="dot" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
+        <div class="slide">
+            <img src="{{ asset('images/Slide_2.jpg') }}" alt="Slide 2">
+            <div class="slide-caption">
+                <h2>Expert Tutors</h2>
+                <p>Learn from the best in every subject</p>
+            </div>
+        </div>
+        <div class="slide">
+            <img src="{{ asset('images/Slide_3.jpg') }}" alt="Slide 3">
+            <div class="slide-caption">
+                <h2>Flexible Learning</h2>
+                <p>Study at your own pace, on your own schedule</p>
+            </div>
+        </div>
+        <div class="slide">
+            <img src="{{ asset('images/Slide_4.jpg') }}" alt="Slide 4">
+            <div class="slide-caption">
+                <h2>Achieve Your Goals</h2>
+                <p>We're committed to your academic success</p>
+            </div>
+        </div>
+
+
+        <div class="slide-nav">
+            <span class="slide-nav-dot active" data-index="0"></span>
+            <span class="slide-nav-dot" data-index="1"></span>
+            <span class="slide-nav-dot" data-index="2"></span>
+            <span class="slide-nav-dot" data-index="3"></span>
         </div>
     </div>
-
-    <style>
-        .slideshow-container {
-            position: relative;
-            max-width: 100%;
-            margin: auto;
-            overflow: hidden;
-            height: 500px;
-        }
-        
-        .slideshow-slides {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-        
-        .slide {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-        
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .slide-caption {
-            position: absolute;
-            bottom: 20%;
-            left: 10%;
-            background-color: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 5px;
-            max-width: 50%;
-        }
-        
-        .slide-caption h2 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .slide-caption p {
-            font-size: 1.2rem;
-        }
-        
-        .slideshow-dots {
-            text-align: center;
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-        }
-        
-        .dot {
-            height: 12px;
-            width: 12px;
-            margin: 0 5px;
-            background-color: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            cursor: pointer;
-            transition: background-color 0.6s ease;
-        }
-        
-        .active, .dot:hover {
-            background-color: #717171;
-        }
-        
-        .fade {
-            animation-name: fade;
-            animation-duration: 1.5s;
-        }
-        
-        @keyframes fade {
-            from {opacity: .4} 
-            to {opacity: 1}
-        }
-        
-        @media (max-width: 768px) {
-            .slideshow-container {
-                height: 350px;
-            }
-            
-            .slide-caption {
-                max-width: 80%;
-                left: 5%;
-            }
-            
-            .slide-caption h2 {
-                font-size: 1.4rem;
-            }
-            
-            .slide-caption p {
-                font-size: 1rem;
-            }
-        }
-    </style>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let slideIndex = 0;
-            showSlides();
-            
-            function showSlides() {
-                let i;
-                let slides = document.getElementsByClassName("slide");
-                let dots = document.getElementsByClassName("dot");
-                
-                for (i = 0; i < slides.length; i++) {
-                    slides[i].style.opacity = "0";
-                }
-                
-                slideIndex++;
-                if (slideIndex > slides.length) {slideIndex = 1}
-                
-                for (i = 0; i < dots.length; i++) {
-                    dots[i].className = dots[i].className.replace(" active", "");
-                }
-                
-                slides[slideIndex-1].style.opacity = "1";
-                dots[slideIndex-1].className += " active";
-                
-                setTimeout(showSlides, 5000); // Change image every 5 seconds
-            }
-            
-            window.currentSlide = function(n) {
-                slideIndex = n - 1;
-                let slides = document.getElementsByClassName("slide");
-                let dots = document.getElementsByClassName("dot");
-                
-                for (let i = 0; i < slides.length; i++) {
-                    slides[i].style.opacity = "0";
-                }
-                
-                for (let i = 0; i < dots.length; i++) {
-                    dots[i].className = dots[i].className.replace(" active", "");
-                }
-                
-                slides[slideIndex].style.opacity = "1";
-                dots[slideIndex].className += " active";
-            }
-        });
-    </script>
 
     <!-- Hero Section -->
     <div class="relative pt-24">
@@ -292,5 +219,82 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slide-nav-dot');
+            const prevButton = document.querySelector('.slide-prev');
+            const nextButton = document.querySelector('.slide-next');
+            const totalSlides = slides.length;
+            let slideInterval;
+
+            // Function to show a specific slide with smooth transition
+            function showSlide(index) {
+                // Hide all slides with smooth transition
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                    slide.style.zIndex = '0';
+                });
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                // Show the selected slide
+                const targetSlide = slides[index];
+                targetSlide.style.zIndex = '1';
+                targetSlide.classList.add('active');
+                dots[index].classList.add('active');
+                
+                // Update current slide index
+                currentSlide = index;
+            }
+
+            // Function to show the next slide
+            function nextSlide() {
+                let nextIndex = currentSlide + 1;
+                if (nextIndex >= totalSlides) {
+                    nextIndex = 0;
+                }
+                showSlide(nextIndex);
+            }
+
+            // Function to show the previous slide
+            function prevSlide() {
+                let prevIndex = currentSlide - 1;
+                if (prevIndex < 0) {
+                    prevIndex = totalSlides - 1;
+                }
+                showSlide(prevIndex);
+            }
+
+            // Start automatic slideshow
+            function startSlideshow() {
+                slideInterval = setInterval(nextSlide, 3000);
+            }
+
+            // Stop automatic slideshow
+            function stopSlideshow() {
+                clearInterval(slideInterval);
+            }
+
+            // Event listeners for navigation dots
+            dots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const slideIndex = parseInt(this.getAttribute('data-index'));
+                    showSlide(slideIndex);
+                    stopSlideshow();
+                    startSlideshow();
+                });
+            });
+
+
+            // Pause slideshow when hovering over the slideshow container
+            const slideshowContainer = document.querySelector('.slideshow-container');
+            slideshowContainer.addEventListener('mouseenter', stopSlideshow);
+            slideshowContainer.addEventListener('mouseleave', startSlideshow);
+
+            // Start the slideshow
+            startSlideshow();
+        });
+    </script>
+@endsection
