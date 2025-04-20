@@ -9,16 +9,16 @@
             </h1>
             
             <div class="flex flex-col space-y-4">
-                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                    <h2 class="text-lg font-semibold text-blue-800 mb-2">Register as a Tutor</h2>
-                    <p class="text-sm text-blue-600 mb-3">Create a tutor account to offer your teaching services</p>
-                    <a href="{{ route('register.tutor') }}" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Register as Tutor</a>
+                <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                    <h2 class="text-lg font-semibold text-indigo-800 mb-2">Register as a Tutor</h2>
+                    <p class="text-sm text-indigo-600 mb-3">Create a tutor account to offer your teaching services</p>
+                    <a href="{{ route('register.tutor') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Register as Tutor</a>
                 </div>
                 
-                <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-                    <h2 class="text-lg font-semibold text-green-800 mb-2">Register as a Parent</h2>
-                    <p class="text-sm text-green-600 mb-3">Create a parent account to find tutors for your children</p>
-                    <a href="{{ route('register.parent') }}" class="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Register as Parent</a>
+                <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                    <h2 class="text-lg font-semibold text-indigo-800 mb-2">Register as a Parent</h2>
+                    <p class="text-sm text-indigo-600 mb-3">Create a parent account to find tutors for your children</p>
+                    <a href="{{ route('register.parent') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Register as Parent</a>
                 </div>
             </div>
             

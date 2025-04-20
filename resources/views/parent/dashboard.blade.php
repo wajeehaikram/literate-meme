@@ -50,24 +50,6 @@
                     </div>
                 </div>
 
-                <!-- Quick Actions -->
-                <div class="mb-8">
-                    <h2 class="text-xl font-medium text-gray-800 mb-4">Quick Actions</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <a href="{{ route('parent.bookings') }}" class="bg-white p-4 rounded-lg border border-gray-200 hover:border-indigo-300 hover:shadow-md transition-all duration-300 text-center">
-                            <div class="text-indigo-600 font-medium">Bookings</div>
-                            <div class="text-sm text-gray-500 mt-1">Manage tutoring sessions</div>
-                        </a>
-                        <a href="{{ route('parent.messages') }}" class="bg-white p-4 rounded-lg border border-gray-200 hover:border-indigo-300 hover:shadow-md transition-all duration-300 text-center">
-                            <div class="text-indigo-600 font-medium">Messages</div>
-                            <div class="text-sm text-gray-500 mt-1">Contact tutors</div>
-                        </a>
-                        <a href="{{ route('parent.payments') }}" class="bg-white p-4 rounded-lg border border-gray-200 hover:border-indigo-300 hover:shadow-md transition-all duration-300 text-center">
-                            <div class="text-indigo-600 font-medium">Payments</div>
-                            <div class="text-sm text-gray-500 mt-1">View payment history</div>
-                        </a>
-                    </div>
-                </div>
 
                 <!-- My Children Section -->
                 <div class="mb-8">
@@ -89,7 +71,7 @@
                         @forelse($children as $child)
                             <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-300">
                                 <div class="p-6">
-                                    <div class="flex justify-between items-start mb-4">
+                                    <div class="flex justify-between items-start mb-4 space-x-2">
                                         <div>
                                             <h3 class="text-lg font-medium text-gray-900">{{ $child->name }}</h3>
                                             <p class="text-sm text-indigo-600">{{ $child->year_group }}</p>
@@ -99,6 +81,15 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                             </svg>
                                         </a>
+                                        <a href="{{ route('parent.children.destroy', $child) }}" class="text-red-600 hover:text-red-800" onclick="event.preventDefault(); document.getElementById('delete-child-form-{{ $child->id }}').submit();">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </a>
+                                        <form id="delete-child-form-{{ $child->id }}" action="{{ route('parent.children.destroy', $child) }}" method="POST" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
                                     </div>
                                     
                                     <div class="space-y-3">
@@ -129,16 +120,21 @@
 
                 <!-- Tutor Profiles Section -->
                 <div class="mb-8">
-                    <h2 class="text-xl font-medium text-gray-800 mb-4">Available Tutors</h2>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-medium text-gray-800">Available Tutors</h2>
+                        <a href="{{ route('parent.browse-tutors') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300">
+                            View All
+                        </a>
+                    </div>
                     @php
                         $tutors = App\Models\User::whereHas('tutorProfile')
                             ->with(['tutorProfile'])
                             ->get();
                         $totalTutors = count($tutors);
                     @endphp
-                    <div class="relative">
+                    <div class="relative" style="z-index: 1;">
                         <div class="overflow-hidden">
-                            <div class="flex transition-transform duration-300 ease-in-out space-x-6" id="tutorCarousel" style="width: calc(100% * ceil({{ $totalTutors }} / 3))">
+                            <div class="flex transition-transform duration-300 ease-in-out space-x-6" id="tutorCarousel" style="width: calc(100% * ceil({{ $totalTutors }} / 3)); position: relative; z-index: 1;">
                                 <style>
                                     #tutorCarousel > div {
                                         flex: 0 0 calc(33.333% - 1rem);
@@ -191,7 +187,7 @@
                                             </div>
 
                                             <div class="mt-4 pt-4 border-t border-gray-100">
-                                                <a href="{{ route('parent.messages.create', ['tutor_id' => $tutor->id]) }}" class="inline-flex items-center justify-center w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300">
+                                                <a href="{{ route('messages.show', $tutor->id) }}" class="inline-flex items-center justify-center w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                                                     </svg>
@@ -219,7 +215,26 @@
                             </div>
                         </div>
                     </div>
+                                    <!-- Quick Actions -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-medium text-gray-800 mb-4">Quick Actions</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <a href="{{ route('parent.bookings') }}" class="bg-white p-4 rounded-lg border border-gray-200 hover:border-indigo-300 hover:shadow-md transition-all duration-300 text-center">
+                            <div class="text-indigo-600 font-medium">Bookings</div>
+                            <div class="text-sm text-gray-500 mt-1">Manage tutoring sessions</div>
+                        </a>
+                        <a href="{{ route('parent.messages') }}" class="bg-white p-4 rounded-lg border border-gray-200 hover:border-indigo-300 hover:shadow-md transition-all duration-300 text-center">
+                            <div class="text-indigo-600 font-medium">Messages</div>
+                            <div class="text-sm text-gray-500 mt-1">Contact tutors</div>
+                        </a>
+                        <a href="{{ route('parent.payments') }}" class="bg-white p-4 rounded-lg border border-gray-200 hover:border-indigo-300 hover:shadow-md transition-all duration-300 text-center">
+                            <div class="text-indigo-600 font-medium">Payments</div>
+                            <div class="text-sm text-gray-500 mt-1">View payment history</div>
+                        </a>
+                    </div>
                 </div>
+                </div>
+                
 
                 <script>
                     let currentPosition = 0;

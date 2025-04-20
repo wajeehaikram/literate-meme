@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\BookingsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,25 +32,40 @@ Route::post('/register/parent', [AuthController::class, 'registerParent'])->name
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Placeholder routes for dashboard functionality
+use App\Models\Message;
+use Illuminate\Support\Facades\Auth;
 Route::get('/tutor/dashboard', function() {
-    return view('tutor.dashboard');
+    $user = Auth::user();
+    $unreadMessages = collect();
+    $recentMessages = collect();
+    if ($user) {
+        $unreadMessages = App\Models\Message::where('receiver_id', $user->id)
+            ->whereNull('read_at')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        $recentMessages = App\Models\Message::with('sender')
+            ->where('receiver_id', $user->id)
+            ->orWhere('sender_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+    }
+    return view('tutor.dashboard', compact('unreadMessages', 'recentMessages'));
 })->name('tutor.dashboard')->middleware('auth');
 
-Route::get('/tutor/messages', function() {
-    return view('tutor.messages');
-})->name('tutor.messages')->middleware('auth');
+Route::get('/tutor/messages', [MessagesController::class, 'index'])->name('tutor.messages')->middleware('auth');
 
-Route::get('/tutor/bookings', function() {
-    return view('tutor.bookings');
-})->name('tutor.bookings')->middleware('auth');
+Route::get('/tutor/bookings', [BookingsController::class, 'tutorBookings'])->name('tutor.bookings')->middleware('auth');
 
 Route::get('/tutor/resources', function() {
     return view('tutor.resources');
 })->name('tutor.resources')->middleware('auth');
 
+use App\Http\Controllers\TutorSimpleAvailabilityController;
+
 Route::middleware(['auth'])->group(function () {
-    Route::get('/tutor/availability', [\App\Http\Controllers\TutorAvailabilityController::class, 'index'])->name('tutor.availability');
-    Route::post('/tutor/availability', [\App\Http\Controllers\TutorAvailabilityController::class, 'update'])->name('tutor.availability.update');
+    // Removed tutor availability routes
+    Route::post('/tutor/availability/simple', [TutorSimpleAvailabilityController::class, 'store'])->name('tutor.availability.simple.store');
 });
 
 Route::get('/tutor/sessions', function() {
@@ -63,13 +79,9 @@ Route::get('/parent/dashboard', function() {
     return view('parent.dashboard', compact('tutors'));
 })->name('parent.dashboard')->middleware('auth');
 
-Route::get('/parent/messages', function() {
-    return view('parent.messages');
-})->name('parent.messages')->middleware('auth');
+Route::get('/parent/messages', [MessagesController::class, 'index'])->name('parent.messages')->middleware('auth');
 
-Route::get('/parent/bookings', function() {
-    return view('parent.bookings');
-})->name('parent.bookings')->middleware('auth');
+Route::get('/parent/bookings', [BookingsController::class, 'parentBookings'])->name('parent.bookings')->middleware('auth');
 
 Route::get('/parent/payments', [App\Http\Controllers\PaymentController::class, 'showPayments'])->name('parent.payments')->middleware('auth');
 Route::get('/parent/add-card', [App\Http\Controllers\PaymentController::class, 'showAddCard'])->name('parent.add-card')->middleware('auth');
@@ -77,6 +89,8 @@ Route::get('/parent/add-card', [App\Http\Controllers\PaymentController::class, '
 Route::get('/parent/find-tutors', function() {
     return 'Find Tutors';
 })->name('parent.find-tutors')->middleware('auth');
+
+Route::get('/parent/browse-tutors', [\App\Http\Controllers\TutorController::class, 'browse'])->name('parent.browse-tutors')->middleware('auth');
 
 Route::get('/parent/sessions', function() {
     return 'Parent Sessions';
@@ -97,11 +111,13 @@ Route::middleware('auth')->group(function () {
 // Message Routes
 Route::middleware('auth')->group(function () {
     Route::get('/messages', [MessagesController::class, 'index'])->name('messages.index');
-    Route::get('/messages/compose', [MessagesController::class, 'compose'])->name('messages.compose');
-    Route::get('/messages/{user}', [MessagesController::class, 'show'])->name('messages.show');
     Route::post('/messages', [MessagesController::class, 'store'])->name('messages.store');
+    Route::get('/messages/{user}', [MessagesController::class, 'show'])->name('messages.show');
+    // Search route kept for backward compatibility
     Route::get('/messages/search', [MessagesController::class, 'search'])->name('messages.search');
-    Route::get('/parent/messages/create/{tutor_id}', [MessagesController::class, 'compose'])->name('parent.messages.create');
+    Route::post('/messages/send-suggestion', [MessagesController::class, 'sendSuggestion'])->name('messages.sendSuggestion');
+    Route::post('/messages/suggest-booking', [MessagesController::class, 'suggestBooking'])->name('messages.suggestBooking');
+    Route::post('/messages/{message}/booking-response', [MessagesController::class, 'bookingResponse'])->name('messages.bookingResponse');
 });
 
 // Payment Routes

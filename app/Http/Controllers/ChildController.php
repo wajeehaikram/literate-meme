@@ -118,15 +118,11 @@ class ChildController extends Controller
     /**
      * Remove the specified child from storage.
      */
-    public function destroy(Child $child)
+    public function destroy($id)
     {
-        // Ensure the child belongs to the authenticated parent
-        if ($child->parent_id !== Auth::id()) {
-            abort(403, 'Unauthorized action.');
-        }
-
+        $child = Child::findOrFail($id);
         $child->delete();
 
-        return redirect()->route('parent.dashboard')->with('success', 'Child removed successfully!');
+        return redirect()->route('parent.dashboard')->with('success', 'Child removed successfully.');
     }
 }

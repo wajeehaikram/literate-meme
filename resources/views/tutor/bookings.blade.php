@@ -19,22 +19,72 @@
                     </div>
                     
                     <!-- Bookings List -->
-                    <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    @if($upcoming->count())
+                        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                            <ul class="divide-y divide-gray-200">
+                                @foreach($upcoming as $booking)
+                                    <li class="p-4 flex flex-col sm:flex-row sm:items-center justify-between">
+                                        <div>
+                                            <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
+                                            <div class="text-gray-600 text-sm">
+                                                {{ $booking->start_time->format('l, d M Y') }}
+                                                at {{ $booking->start_time->format('H:i') }}
+                                                - {{ $booking->end_time->format('H:i') }}
+                                            </div>
+                                            <div class="text-indigo-600 text-xs mt-1">Status: {{ ucfirst($booking->status) }}</div>
+                                        </div>
+                                        <div class="mt-2 sm:mt-0">
+                                            @if($booking->is_paid)
+                                                <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Paid</span>
+                                            @else
+                                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Unpaid</span>
+                                            @endif
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @else
                         <div class="p-6 text-center text-gray-500">
                             <p>You don't have any upcoming bookings.</p>
                             <p class="mt-2 text-sm">When students book sessions with you, they will appear here.</p>
                         </div>
-                    </div>
+                    @endif
                 </div>
                 
                 <!-- Past Bookings -->
                 <div class="mb-8">
                     <h2 class="text-xl font-medium text-gray-800 mb-4">Past Sessions</h2>
-                    <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    @if($past->count())
+                        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                            <ul class="divide-y divide-gray-200">
+                                @foreach($past as $booking)
+                                    <li class="p-4 flex flex-col sm:flex-row sm:items-center justify-between">
+                                        <div>
+                                            <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
+                                            <div class="text-gray-600 text-sm">
+                                                {{ $booking->start_time->format('l, d M Y') }}
+                                                at {{ $booking->start_time->format('H:i') }}
+                                                - {{ $booking->end_time->format('H:i') }}
+                                            </div>
+                                            <div class="text-indigo-600 text-xs mt-1">Status: {{ ucfirst($booking->status) }}</div>
+                                        </div>
+                                        <div class="mt-2 sm:mt-0">
+                                            @if($booking->is_paid)
+                                                <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Paid</span>
+                                            @else
+                                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Unpaid</span>
+                                            @endif
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @else
                         <div class="p-6 text-center text-gray-500">
                             <p>You don't have any past sessions.</p>
                         </div>
-                    </div>
+                    @endif
                 </div>
                 
                 <!-- Booking Tips -->

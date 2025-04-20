@@ -41,29 +41,45 @@
                     <h2 class="text-base font-semibold leading-7 text-indigo-600">About Us</h2>
                     <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Welcome to LearnScape</p>
                     <p class="mt-6 text-lg leading-8 text-gray-600">
-                        LearnScape is a premier tutoring service dedicated to helping students achieve academic excellence through personalized learning experiences. Our platform connects qualified tutors with students seeking to improve their academic performance and develop a lifelong love for learning.
+                        LearnScape is a premier tutoring service dedicated to helping students achieve academic excellence through personalised learning experiences. Our platform connects qualified tutors with students seeking to improve their academic performance and develop a lifelong love for learning.
                     </p>
                 </div>
             </div>
         </div>
         
-        <!-- Location Section -->
-        <div class="bg-gray-50 py-16">
-            <div class="mx-auto max-w-7xl px-6 lg:px-8">
-                <div class="mx-auto max-w-2xl lg:text-center">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900">Our Location</h2>
-                    <p class="mt-6 text-lg leading-8 text-gray-600">
-                        We are proudly based in Leeds, providing tutoring services to students throughout the city and surrounding areas.
-                    </p>
-                    <div class="mt-6 text-center">
-                        <p class="text-lg font-semibold text-gray-900">LearnScape Education Centre</p>
-                        <p class="text-gray-600">123 Learning Lane</p>
-                        <p class="text-gray-600">Leeds, LS1 4PQ</p>
-                        <p class="text-gray-600">United Kingdom</p>
+        <!-- How It Works Section (3D Numbers with Large Gap) -->
+        <section class="bg-indigo-50 py-20">
+            <div class="max-w-6xl mx-auto px-4 lg:px-8">
+                <div class="text-center mb-14">
+                    <h2 class="text-4xl font-bold text-indigo-800 mb-3">How It Works</h2>
+                    <p class="text-lg text-gray-700">Simple steps for a seamless learning experience.</p>
+                </div>
+                <div class="h-16"></div> <!-- Large vertical gap before numbers -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                    <div>
+                        <div class="flex flex-col items-center mb-6">
+                            <span class="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 text-4xl font-black shadow-2xl border-4 border-indigo-400 mb-3" style="color: #312e81; box-shadow: 0 8px 24px 0 rgba(49,46,129,0.25), 0 2px 4px 0 rgba(49,46,129,0.12), 0 0.5px 1.5px 0 rgba(49,46,129,0.18); text-shadow: 2px 4px 8px #a5b4fc, 0 2px 0 #fff;">1</span>
+                        </div>
+                        <h3 class="text-xl font-black mb-3 text-gray-900"><strong>Create & Add Children</strong></h3>
+                        <p class="text-gray-700 text-base leading-relaxed max-w-xs mx-auto">Sign up, add multiple children, and set their subjects and year groups—<br>all in one place.</p>
+                    </div>
+                    <div>
+                        <div class="flex flex-col items-center mb-6">
+                            <span class="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 text-4xl font-black shadow-2xl border-4 border-indigo-400 mb-3" style="color: #312e81; box-shadow: 0 8px 24px 0 rgba(49,46,129,0.25), 0 2px 4px 0 rgba(49,46,129,0.12), 0 0.5px 1.5px 0 rgba(49,46,129,0.18); text-shadow: 2px 4px 8px #a5b4fc, 0 2px 0 #fff;">2</span>
+                        </div>
+                        <h3 class="text-xl font-black mb-3 text-gray-900"><strong>Browse, Chat & Book</strong></h3>
+                        <p class="text-gray-700 text-base leading-relaxed max-w-xs mx-auto">Browse tutors by subject and qualification, chat to discuss your needs, view availability, and book sessions instantly.</p>
+                    </div>
+                    <div>
+                        <div class="flex flex-col items-center mb-6">
+                            <span class="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 text-4xl font-black shadow-2xl border-4 border-indigo-400 mb-3" style="color: #312e81; box-shadow: 0 8px 24px 0 rgba(49,46,129,0.25), 0 2px 4px 0 rgba(49,46,129,0.12), 0 0.5px 1.5px 0 rgba(49,46,129,0.18); text-shadow: 2px 4px 8px #a5b4fc, 0 2px 0 #fff;">3</span>
+                        </div>
+                        <h3 class="text-xl font-black mb-3 text-gray-900"><strong>Learn, Pay & Stay Updated</strong></h3>
+                        <p class="text-gray-700 text-base leading-relaxed max-w-xs mx-auto">Attend lessons, cancel if needed, get reminders, pay securely with one click, and keep up to date with your child’s progress.</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
         
         <!-- Our Values Section -->
         <div class="bg-white py-24 sm:py-32">
@@ -85,8 +101,8 @@
                         
                         <!-- Value 2 -->
                         <div class="bg-indigo-50 rounded-full px-6 py-8 text-center shadow-sm hover:shadow-lg hover:bg-indigo-200 hover:scale-105 transition-all duration-300">
-                            <h3 class="text-lg font-semibold text-indigo-800 mb-2">Student-Centered Learning</h3>
-                            <p class="text-gray-600">Every student is unique. We tailor our teaching to individual needs, ensuring personalized and effective learning.</p>
+                            <h3 class="text-lg font-semibold text-indigo-800 mb-2">Student-Centred Learning</h3>
+                            <p class="text-gray-600">Every student is unique. We tailor our teaching to individual needs, ensuring personalised and effective learning.</p>
                         </div>
                         
                         <!-- Value 3 -->
@@ -116,6 +132,20 @@
                 </div>
             </div>
         </div>
+
+        <!-- Our Location Section (at bottom) -->
+        <section class="bg-gray-50 py-20">
+            <div class="max-w-2xl mx-auto px-4 text-center">
+                <h2 class="text-2xl font-bold mb-4">Our Location</h2>
+                <p class="text-gray-700 mb-4">We are proudly based in Leeds, providing tutoring services to students throughout the city and surrounding areas.</p>
+                <div class="font-bold mb-1">LearnScape Education Centre</div>
+                <div class="text-gray-600">
+                    123 Learning Lane<br>
+                    Leeds, LS1 4PQ<br>
+                    United Kingdom
+                </div>
+            </div>
+        </section>
     </div>
 </body>
 </html>

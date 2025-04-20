@@ -12,12 +12,11 @@
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-medium text-gray-800">Your Bookings</h2>
                         <div>
-                            <a href="{{ route('parent.find-tutors') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300">
+                            <a href="http://127.0.0.1:8000/parent/browse-tutors" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300">
                                 Book New Session
                             </a>
                         </div>
                     </div>
-                    
                     <!-- Tabs for filtering bookings -->
                     <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
                         <div class="border-b border-gray-200">
@@ -33,14 +32,67 @@
                                 </a>
                             </nav>
                         </div>
-                        
                         <div class="p-6 text-center text-gray-500">
-                            <p>You don't have any upcoming bookings.</p>
-                            <p class="mt-2 text-sm">Book a session with one of our qualified tutors to get started.</p>
+                            @if($upcoming->count())
+                                <ul class="divide-y divide-gray-200">
+                                    @foreach($upcoming as $booking)
+                                        <li class="p-4 flex flex-col sm:flex-row sm:items-center justify-between">
+                                            <div>
+                                                <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
+                                                <div class="text-gray-600 text-sm">
+                                                    {{ $booking->start_time->format('l, d M Y') }}
+                                                    at {{ $booking->start_time->format('H:i') }}
+                                                    - {{ $booking->end_time->format('H:i') }}
+                                                </div>
+                                                <div class="text-indigo-600 text-xs mt-1">Status: {{ ucfirst($booking->status) }}</div>
+                                            </div>
+                                            <div class="mt-2 sm:mt-0">
+                                                @if($booking->is_paid)
+                                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Paid</span>
+                                                @else
+                                                    <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Unpaid</span>
+                                                @endif
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <p>You don't have any upcoming bookings.</p>
+                                <p class="mt-2 text-sm">Book a session with one of our qualified tutors to get started.</p>
+                            @endif
                         </div>
                     </div>
                 </div>
-                
+                <!-- Past Bookings -->
+                @if($past->count())
+                    <div class="mb-8">
+                        <h2 class="text-xl font-medium text-gray-800 mb-4">Past Sessions</h2>
+                        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                            <ul class="divide-y divide-gray-200">
+                                @foreach($past as $booking)
+                                    <li class="p-4 flex flex-col sm:flex-row sm:items-center justify-between">
+                                        <div>
+                                            <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
+                                            <div class="text-gray-600 text-sm">
+                                                {{ $booking->start_time->format('l, d M Y') }}
+                                                at {{ $booking->start_time->format('H:i') }}
+                                                - {{ $booking->end_time->format('H:i') }}
+                                            </div>
+                                            <div class="text-indigo-600 text-xs mt-1">Status: {{ ucfirst($booking->status) }}</div>
+                                        </div>
+                                        <div class="mt-2 sm:mt-0">
+                                            @if($booking->is_paid)
+                                                <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Paid</span>
+                                            @else
+                                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Unpaid</span>
+                                            @endif
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                @endif
                 <!-- Booking Tips -->
                 <div class="bg-indigo-50 rounded-lg p-6 shadow-sm">
                     <h3 class="text-lg font-medium text-indigo-800 mb-2">Booking Tips</h3>

@@ -58,11 +58,19 @@
 </head>
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
-        <nav class="bg-white shadow-sm fixed w-full z-50">
+        <nav class="bg-white shadow-sm fixed w-full z-50 top-0 left-0">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
-                        <a href="{{ route('home') }}" class="text-2xl font-bold text-indigo-600">LearnScape</a>
+                        @auth
+                            @if(Auth::user()->isTutor())
+                                <a href="{{ route('home') }}" class="text-2xl font-bold text-indigo-600">LearnScape</a>
+                            @else
+                                <a href="{{ route('parent.dashboard') }}" class="text-2xl font-bold text-indigo-600">LearnScape</a>
+                            @endif
+                        @else
+                            <a href="{{ route('home') }}" class="text-2xl font-bold text-indigo-600">LearnScape</a>
+                        @endauth
                     </div>
                     <div class="flex items-center space-x-8">
                         @auth
@@ -105,5 +113,6 @@
         </main>
     </div>
     <script src="//code.tidio.co/t3mk4s5lwurqkmeginnwlwytkpfya985.js" async></script>
+    @stack('scripts')
 </body>
 </html>

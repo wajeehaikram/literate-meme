@@ -14,7 +14,7 @@ class TutorSeeder extends Seeder
         $tutors = [
             [
                 'name' => 'John Smith',
-                'email' => 'john.smith@learnscape.com',
+                'email' => 'john.smith1@learnscape.com',
                 'password' => 'tutor1234',
                 'bio' => 'Experienced math tutor with 5+ years of teaching high school students.',
                 'subjects' => ['Mathematics', 'Science'],
@@ -24,7 +24,7 @@ class TutorSeeder extends Seeder
             ],
             [
                 'name' => 'Sarah Johnson',
-                'email' => 'sarah.johnson@learnscape.com',
+                'email' => 'sarah.johnson1@learnscape.com',
                 'password' => 'tutor1234',
                 'bio' => 'English literature specialist with a passion for creative writing.',
                 'subjects' => ['English Literature'],
@@ -34,7 +34,7 @@ class TutorSeeder extends Seeder
             ],
             [
                 'name' => 'Michael Chen',
-                'email' => 'michael.chen@learnscape.com',
+                'email' => 'michael.chen1@learnscape.com',
                 'password' => 'tutor1234',
                 'bio' => 'Computer science expert with industry experience in software development.',
                 'subjects' => ['Computer Science', 'Maths'],
@@ -44,7 +44,7 @@ class TutorSeeder extends Seeder
             ],
             [
                 'name' => 'Emily Wilson',
-                'email' => 'emily.wilson@learnscape.com',
+                'email' => 'emily.wilson1@learnscape.com',
                 'password' => 'tutor1234',
                 'bio' => 'Chemistry tutor with research background in pharmaceutical sciences.',
                 'subjects' => ['Chemistry', 'Biology'],
@@ -54,21 +54,121 @@ class TutorSeeder extends Seeder
             ],
             [
                 'name' => 'David Brown',
-                'email' => 'david.brown@learnscape.com',
+                'email' => 'david.brown1@learnscape.com',
                 'password' => 'tutor1234',
                 'bio' => 'History enthusiast with specialization in European history.',
                 'subjects' => ['History'],
-                'age_groups' => ['High School'],
+                'age_groups' => ['Secondary School'],
                 'hourly_rate' => 20.00,
                 'qualifications' => ['MA in History', 'Teaching License']
             ],
             [
+                'name' => 'Aisha Khan',
+                'email' => 'aisha.khan1@learnscape.com',
+                'password' => 'tutor1234',
+                'bio' => 'Passionate about teaching Mathematics and Science.',
+                'subjects' => ['Mathematics', 'Science'],
+                'age_groups' => ['Primary School', 'Secondary School'],
+                'hourly_rate' => 18.00,
+                'qualifications' => ['Bachelor\'s Degree', 'Teaching Certificate']
+            ],
+            [
+                'name' => 'Omar Ali',
+                'email' => 'omar.ali1@learnscape.com',
+                'password' => 'tutor1234',
+                'bio' => 'History and Geography enthusiast with a knack for storytelling.',
+                'subjects' => ['History', 'Geography'],
+                'age_groups' => ['Secondary School', 'Sixth Form'],
+                'hourly_rate' => 22.00,
+                'qualifications' => ['Master\'s Degree', 'Teaching Certificate']
+            ],
+            [
+                'name' => 'Fatima Noor',
+                'email' => 'fatima.noor1@learnscape.com',
+                'password' => 'tutor1234',
+                'bio' => 'Dedicated to teaching English and Computer Science.',
+                'subjects' => ['English', 'Computer Science'],
+                'age_groups' => ['University'],
+                'hourly_rate' => 25.00,
+                'qualifications' => ['PhD', 'Teaching Certificate']
+            ],
+            [
+                'name' => 'Zain Malik',
+                'email' => 'zain.malik1@learnscape.com',
+                'password' => 'tutor1234',
+                'bio' => 'Experienced in teaching Science and Mathematics.',
+                'subjects' => ['Science', 'Mathematics'],
+                'age_groups' => ['Primary School', 'Secondary School'],
+                'hourly_rate' => 20.00,
+                'qualifications' => ['Bachelor\'s Degree', 'Teaching Certificate']
+            ],
+            [
+                'name' => 'Layla Ahmed',
+                'email' => 'layla.ahmed1@learnscape.com',
+                'password' => 'tutor1234',
+                'bio' => 'Specializes in teaching Geography and History.',
+                'subjects' => ['Geography', 'History'],
+                'age_groups' => ['Sixth Form', 'University'],
+                'hourly_rate' => 23.00,
+                'qualifications' => ['Master\'s Degree', 'Teaching Certificate']
+            ],
+            [
+                'name' => 'Hassan Javed',
+                'email' => 'hassan.javed1@learnscape.com',
+                'password' => 'tutor1234',
+                'bio' => 'Expert in Computer Science and English.',
+                'subjects' => ['Computer Science', 'English'],
+                'age_groups' => ['Secondary School', 'University'],
+                'hourly_rate' => 24.00,
+                'qualifications' => ['PhD', 'Teaching Certificate']
+            ],
+            [
+                'name' => 'Nadia Khan',
+                'email' => 'nadia.khan1@learnscape.com',
+                'password' => 'tutor1234',
+                'bio' => 'Passionate about teaching Mathematics and Science.',
+                'subjects' => ['Mathematics', 'Science'],
+                'age_groups' => ['Primary School', 'Secondary School'],
+                'hourly_rate' => 18.00,
+                'qualifications' => ['Bachelor\'s Degree', 'Teaching Certificate']
+            ],
+            [
+                'name' => 'Yusuf Ali',
+                'email' => 'yusuf.ali1@learnscape.com',
+                'password' => 'tutor1234',
+                'bio' => 'History and Geography enthusiast with a knack for storytelling.',
+                'subjects' => ['History', 'Geography'],
+                'age_groups' => ['Secondary School', 'Sixth Form'],
+                'hourly_rate' => 22.00,
+                'qualifications' => ['Master\'s Degree', 'Teaching Certificate']
+            ],
+            [
+                'name' => 'Amira Noor',
+                'email' => 'amira.noor1@learnscape.com',
+                'password' => 'tutor1234',
+                'bio' => 'Dedicated to teaching English and Computer Science.',
+                'subjects' => ['English', 'Computer Science'],
+                'age_groups' => ['University'],
+                'hourly_rate' => 25.00,
+                'qualifications' => ['PhD', 'Teaching Certificate']
+            ],
+            [
+                'name' => 'Bilal Malik',
+                'email' => 'bilal.malik1@learnscape.com',
+                'password' => 'tutor1234',
+                'bio' => 'Experienced in teaching Science and Mathematics.',
+                'subjects' => ['Science', 'Mathematics'],
+                'age_groups' => ['Primary School', 'Secondary School'],
+                'hourly_rate' => 20.00,
+                'qualifications' => ['Bachelor\'s Degree', 'Teaching Certificate']
+            ],
+            [
                 'name' => 'Aizah Akbar',
-                'email' => 'aizahakbar@gmail.com',
+                'email' => 'aizah.akbar@gmail.com',
                 'password' => 'Aizah123',
                 'bio' => 'BTW GUYS BESKILLUY TRUAST ME.',
                 'subjects' => ['Computer Science'],
-                'age_groups' => ['High School'],
+                'age_groups' => ['Secondary School'],
                 'hourly_rate' => 20.00,
                 'qualifications' => ['Teaching License']
             ]
@@ -81,7 +181,7 @@ class TutorSeeder extends Seeder
                 'password' => Hash::make($tutorData['password']),
                 'user_type' => 'tutor'
             ]);
-
+    
             TutorProfile::create([
                 'user_id' => $user->id,
                 'bio' => $tutorData['bio'],

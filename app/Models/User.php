@@ -52,10 +52,11 @@ class User extends Authenticatable
     /**
      * Get the tutor's availability schedule.
      */
-    public function tutorAvailability(): HasMany
-    {
-        return $this->hasMany(TutorAvailability::class, 'tutor_id');
-    }
+    // Removed tutor availability schedule relationship
+    // public function tutorAvailabilities()
+    // {
+    //     return $this->hasMany(TutorAvailability::class, 'tutor_id');
+    // }
     
     /**
      * Check if the user is a tutor
@@ -92,12 +93,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(TutoringSession::class, 'parent_id');
     }
-    
-    public function availability(): HasMany
-    {
-        return $this->hasMany(TutorAvailability::class, 'tutor_id');
-    }
-    
+        
     public function isParent(): bool
     {
         return $this->user_type === 'parent';
@@ -109,5 +105,13 @@ class User extends Authenticatable
     public function children()
     {
         return $this->hasMany(Child::class, 'parent_id');
+    }
+
+    /**
+     * Get the simple availability associated with the tutor user.
+     */
+    public function tutorSimpleAvailability(): HasOne
+    {
+        return $this->hasOne(TutorSimpleAvailability::class);
     }
 }

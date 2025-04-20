@@ -5,13 +5,9 @@
     <div class="row">
         <div class="col-md-4">
             <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <div class="input-group">
-                        <input type="text" id="search-user" class="form-control" placeholder="Search users...">
-                    </div>
-                    <a href="{{ route('messages.compose') }}" class="btn btn-primary btn-sm ml-2">New Message</a>
+                <div class="card-header">
+                    <h5 class="mb-0">Your Conversations</h5>
                 </div>
-                <div class="list-group list-group-flush" id="search-results"></div>
                 <div class="list-group list-group-flush" id="conversations-list">
                     @foreach($conversations as $userId => $messages)
                         @php
@@ -43,31 +39,7 @@
 
 @push('scripts')
 <script>
-    const searchInput = document.getElementById('search-user');
-    const searchResults = document.getElementById('search-results');
-    let searchTimeout;
-
-    searchInput.addEventListener('input', function() {
-        clearTimeout(searchTimeout);
-        const query = this.value.trim();
-        
-        if (query.length < 2) {
-            searchResults.innerHTML = '';
-            return;
-        }
-
-        searchTimeout = setTimeout(() => {
-            fetch(`/messages/search?query=${encodeURIComponent(query)}`)
-                .then(response => response.json())
-                .then(users => {
-                    searchResults.innerHTML = users.map(user => `
-                        <a href="/messages/${user.id}" class="list-group-item list-group-item-action">
-                            ${user.name}
-                        </a>
-                    `).join('');
-                });
-        }, 300);
-    });
+    // Script simplified as search functionality has been removed
 </script>
 @endpush
 @endsection

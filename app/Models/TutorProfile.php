@@ -29,10 +29,10 @@ class TutorProfile extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function availability(): HasMany
-    {
-        return $this->hasMany(TutorAvailability::class, 'tutor_id', 'user_id');
-    }
+    // Removed: public function availability(): HasMany
+    // {
+    //     return $this->hasMany(TutorAvailability::class, 'tutor_id', 'user_id');
+    // }
 
     public function sessions(): HasMany
     {

@@ -47,5 +47,25 @@
     <div>
         @yield('content')
     </div>
+    <style>
+        /* Remove top padding/margin for home page content under fixed navbar */
+        body.homepage-main {
+            padding-top: 0 !important;
+        }
+        .slideshow-container {
+            margin-top: 0 !important;
+        }
+        .relative.pt-24 {
+            padding-top: 0 !important;
+        }
+    </style>
+    <script>
+        // Add a class to body only on the homepage to remove top padding
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.location.pathname === '/' || window.location.pathname === '/home' || window.location.pathname === '/welcome') {
+                document.body.classList.add('homepage-main');
+            }
+        });
+    </script>
 </body>
 </html>
