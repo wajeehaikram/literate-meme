@@ -27,33 +27,33 @@
                 <div class="mb-8 p-4 bg-gray-50 rounded-lg">
                     <h2 class="text-lg font-medium text-gray-800 mb-4">Filter Tutors</h2>
                     
-                    <form id="filter-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <form id="filter-form" method="GET" action="{{ route('parent.browse-tutors') }}" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Subject Filters -->
                         <div>
                             <h3 class="text-md font-medium text-gray-700 mb-2">Subjects</h3>
                             <div class="grid grid-cols-2 gap-2">
                                 <div class="flex items-center">
-                                    <input type="checkbox" id="subject-mathematics" name="subjects[]" value="Mathematics" class="subject-filter h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                    <input type="checkbox" id="subject-mathematics" name="subjects[]" value="Mathematics" class="subject-filter h-4 w-4 text-indigo-600 border-gray-300 rounded" {{ in_array('Mathematics', request()->input('subjects', [])) ? 'checked' : '' }}>
                                     <label for="subject-mathematics" class="ml-2 text-sm text-gray-700">Mathematics</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input type="checkbox" id="subject-english" name="subjects[]" value="English Literature" class="subject-filter h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                    <input type="checkbox" id="subject-english" name="subjects[]" value="English Literature" class="subject-filter h-4 w-4 text-indigo-600 border-gray-300 rounded" {{ in_array('English Literature', request()->input('subjects', [])) ? 'checked' : '' }}>
                                     <label for="subject-english" class="ml-2 text-sm text-gray-700">English</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input type="checkbox" id="subject-science" name="subjects[]" value="Science" class="subject-filter h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                    <input type="checkbox" id="subject-science" name="subjects[]" value="Science" class="subject-filter h-4 w-4 text-indigo-600 border-gray-300 rounded" {{ in_array('Science', request()->input('subjects', [])) ? 'checked' : '' }}>
                                     <label for="subject-science" class="ml-2 text-sm text-gray-700">Science</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input type="checkbox" id="subject-history" name="subjects[]" value="History" class="subject-filter h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                    <input type="checkbox" id="subject-history" name="subjects[]" value="History" class="subject-filter h-4 w-4 text-indigo-600 border-gray-300 rounded" {{ in_array('History', request()->input('subjects', [])) ? 'checked' : '' }}>
                                     <label for="subject-history" class="ml-2 text-sm text-gray-700">History</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input type="checkbox" id="subject-geography" name="subjects[]" value="Geography" class="subject-filter h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                    <input type="checkbox" id="subject-geography" name="subjects[]" value="Geography" class="subject-filter h-4 w-4 text-indigo-600 border-gray-300 rounded" {{ in_array('Geography', request()->input('subjects', [])) ? 'checked' : '' }}>
                                     <label for="subject-geography" class="ml-2 text-sm text-gray-700">Geography</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input type="checkbox" id="subject-computer-science" name="subjects[]" value="Computer Science" class="subject-filter h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                    <input type="checkbox" id="subject-computer-science" name="subjects[]" value="Computer Science" class="subject-filter h-4 w-4 text-indigo-600 border-gray-300 rounded" {{ in_array('Computer Science', request()->input('subjects', [])) ? 'checked' : '' }}>
                                     <label for="subject-computer-science" class="ml-2 text-sm text-gray-700">Computer Science</label>
                                 </div>
                             </div>
@@ -64,28 +64,27 @@
                             <h3 class="text-md font-medium text-gray-700 mb-2">Age Groups</h3>
                             <div class="grid grid-cols-2 gap-2">
                                 <div class="flex items-center">
-                                    <input type="checkbox" id="age-primary" name="age_groups[]" value="Primary School" class="age-filter h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                    <input type="checkbox" id="age-primary" name="age_groups[]" value="Primary School (4-11)" class="age-filter h-4 w-4 text-indigo-600 border-gray-300 rounded" {{ in_array('Primary School (4-11)', request()->input('age_groups', [])) ? 'checked' : '' }}>
                                     <label for="age-primary" class="ml-2 text-sm text-gray-700">Primary School (4-11)</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input type="checkbox" id="age-secondary" name="age_groups[]" value="Secondary School" class="age-filter h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                    <input type="checkbox" id="age-secondary" name="age_groups[]" value="Secondary School (11-16)" class="age-filter h-4 w-4 text-indigo-600 border-gray-300 rounded" {{ in_array('Secondary School (11-16)', request()->input('age_groups', [])) ? 'checked' : '' }}>
                                     <label for="age-secondary" class="ml-2 text-sm text-gray-700">Secondary School (11-16)</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input type="checkbox" id="age-sixth" name="age_groups[]" value="Sixth Form" class="age-filter h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                    <input type="checkbox" id="age-sixth" name="age_groups[]" value="Sixth Form (16-18)" class="age-filter h-4 w-4 text-indigo-600 border-gray-300 rounded" {{ in_array('Sixth Form (16-18)', request()->input('age_groups', [])) ? 'checked' : '' }}>
                                     <label for="age-sixth" class="ml-2 text-sm text-gray-700">Sixth Form (16-18)</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input type="checkbox" id="age-university" name="age_groups[]" value="University" class="age-filter h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                    <input type="checkbox" id="age-university" name="age_groups[]" value="University (18+)" class="age-filter h-4 w-4 text-indigo-600 border-gray-300 rounded" {{ in_array('University (18+)', request()->input('age_groups', [])) ? 'checked' : '' }}>
                                     <label for="age-university" class="ml-2 text-sm text-gray-700">University (18+)</label>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="md:col-span-2 flex justify-end">
-                            <button type="button" id="clear-filters" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-300 mr-2">
-                                Clear Filters
-                            </button>
+                        <div class="md:col-span-2 flex justify-end space-x-4">
+                            <button type="submit" id="apply-filters" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300">Apply Filters</button>
+                            <a href="{{ route('parent.browse-tutors') }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-300">Clear Filters</a>
                         </div>
                     </form>
                 </div>
@@ -94,7 +93,13 @@
                 <div class="mb-8">
                     <h2 class="text-xl font-medium text-gray-800 mb-4">Available Tutors</h2>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 tutors-fade" id="tutors-grid">
+                        <div class="tutors-spinner" id="tutors-spinner">
+                            <svg class="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                            </svg>
+                        </div>
                         @forelse($tutors as $tutor)
                             <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-300 tutor-card">
                                 <div class="p-6">
@@ -177,58 +182,121 @@
     </div>
 </div>
 
+<style>
+    .tutors-fade {
+        transition: opacity 0.4s, transform 0.3s ease-out;
+        opacity: 1;
+        position: relative;
+        transform: translateY(0);
+    }
+    .tutors-fade.fading {
+        opacity: 0.3;
+        transform: translateY(10px);
+    }
+    .tutors-spinner {
+        display: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        z-index: 10;
+        transition: transform 0.3s ease-out;
+    }
+    .tutors-fade.loading .tutors-spinner {
+        display: block;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    
+    /* Filter form transitions */
+    #filter-form button,
+    #filter-form a {
+        transition: all 0.3s ease;
+    }
+    #filter-form button:active,
+    #filter-form a:active {
+        transform: scale(0.95);
+    }
+    
+    /* Checkbox animation */
+    .subject-filter,
+    .age-filter {
+        transition: all 0.2s ease;
+    }
+    .subject-filter:checked,
+    .age-filter:checked {
+        transform: scale(1.2);
+    }
+    
+    /* Tutor card animations */
+    .tutor-card {
+        transition: all 0.3s ease;
+        transform: translateY(0);
+    }
+    .tutor-card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+
 @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        function getTutorSubjects(card) {
-            return Array.from(card.querySelectorAll('.tutor-subject'))
-                .map(span => span.textContent.trim());
-        }
-        function getTutorAgeGroups(card) {
-            return Array.from(card.querySelectorAll('.tutor-age'))
-                .map(span => span.textContent.trim());
-        }
-        const tutorCards = document.querySelectorAll('.tutor-card');
-        const subjectFilters = document.querySelectorAll('.subject-filter');
-        const ageFilters = document.querySelectorAll('.age-filter');
-        const clearFiltersBtn = document.getElementById('clear-filters');
-
-        function filterTutors() {
-            const selectedSubjects = Array.from(subjectFilters)
-                .filter(checkbox => checkbox.checked)
-                .map(checkbox => checkbox.value);
-            const selectedAgeGroups = Array.from(ageFilters)
-                .filter(checkbox => checkbox.checked)
-                .map(checkbox => checkbox.value);
-            tutorCards.forEach(card => {
-                const cardSubjects = getTutorSubjects(card);
-                const cardAgeGroups = getTutorAgeGroups(card);
-                const matchesSubjects = selectedSubjects.length === 0 || 
-                    selectedSubjects.some(subject => cardSubjects.includes(subject));
-                const matchesAgeGroups = selectedAgeGroups.length === 0 || 
-                    selectedAgeGroups.some(ageGroup => cardAgeGroups.includes(ageGroup));
-                if (matchesSubjects && matchesAgeGroups) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
+        // Get all filter checkboxes
+        const filterCheckboxes = document.querySelectorAll('.subject-filter, .age-filter');
+        const filterForm = document.getElementById('filter-form');
+        const tutorsGrid = document.getElementById('tutors-grid');
+        const spinner = document.getElementById('tutors-spinner');
+        
+        // Apply filters button functionality
+        const applyFiltersBtn = document.getElementById('apply-filters');
+        if (applyFiltersBtn) {
+            applyFiltersBtn.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent default form submission
+                
+                // Show loading state with animation
+                tutorsGrid.classList.add('fading');
+                tutorsGrid.classList.add('loading');
+                
+                // Add button press effect
+                this.classList.add('scale-95');
+                
+                // Delay form submission for transition effect
+                setTimeout(function() {
+                    filterForm.submit();
+                }, 400);
             });
         }
-        subjectFilters.forEach(checkbox => {
-            checkbox.addEventListener('change', filterTutors);
-        });
-        ageFilters.forEach(checkbox => {
-            checkbox.addEventListener('change', filterTutors);
-        });
-        clearFiltersBtn.addEventListener('click', function() {
-            subjectFilters.forEach(checkbox => {
-                checkbox.checked = false;
+        
+        // Remove automatic submission on checkbox change
+        filterCheckboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                // No automatic submission
             });
-            ageFilters.forEach(checkbox => {
-                checkbox.checked = false;
-            });
-            filterTutors();
         });
+        
+        // Clear filters button functionality
+        const clearFiltersBtn = document.querySelector('a[href="{{ route("parent.browse-tutors") }}"]');
+        if (clearFiltersBtn) {
+            clearFiltersBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Uncheck all checkboxes
+                filterCheckboxes.forEach(function(checkbox) {
+                    checkbox.checked = false;
+                });
+                
+                // Show loading state with animation
+                tutorsGrid.classList.add('fading');
+                tutorsGrid.classList.add('loading');
+                
+                // Add button press effect
+                this.classList.add('scale-95');
+                
+                // Delay navigation for transition effect
+                setTimeout(function() {
+                    window.location.href = '{{ route("parent.browse-tutors") }}';
+                }, 400);
+            });
+        }
     });
 </script>
 @endsection

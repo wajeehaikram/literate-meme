@@ -210,12 +210,15 @@ class MessagesController extends Controller
     }
 
     // Handle accept/decline of booking suggestion
-    public function bookingResponse(Request $request, Message $message)
+    public function bookingResponse(Request $request, $messageId)
     {
         $request->validate([
             'response' => 'required|in:accepted,declined',
         ]);
-
+    
+        // Get the message first
+        $message = Message::findOrFail($messageId);
+        
         // Only the receiver can respond
         if (Auth::id() !== $message->receiver_id) {
             abort(403);
@@ -229,29 +232,19 @@ class MessagesController extends Controller
             
             // Create TutoringSession if accepted and not already created
             if ($request->response === 'accepted') {
-                // Check if a session already exists for this message (optional: add message_id to TutoringSession for strictness)
-                $existing = TutoringSession::where('tutor_id', $message->sender_id)
-                    ->where('parent_id', $message->receiver_id)
-                    ->whereDate('start_time', $content['date'])
-                    ->whereTime('start_time', '>=', $this->parseTimePeriod($content['time_period'])[0])
-                    ->first();
-                if (!$existing) {
-                    $start = $this->parseTimePeriod($content['time_period'])[0];
-                    $end = $this->parseTimePeriod($content['time_period'])[1];
-                    $startDateTime = $content['date'] . ' ' . $start;
-                    $endDateTime = $content['date'] . ' ' . $end;
-                    TutoringSession::create([
-                        'tutor_id' => $message->sender_id,
-                        'parent_id' => $message->receiver_id,
-                        'start_time' => $startDateTime,
-                        'end_time' => $endDateTime,
-                        'status' => 'scheduled', // Use allowed enum value
-                        'subject' => $content['subject'] ?? '',
-                        'session_fee' => 0,
-                        'notes' => '',
-                        'is_paid' => false,
-                    ]);
-                }
+                $content = json_decode($message->content, true);
+                $timeSlots = $this->parseTimePeriod($content['time_period']);
+                
+                TutoringSession::create([
+                    'tutor_id' => $message->receiver_id,  // Tutor is the message receiver
+                    'parent_id' => $message->sender_id,    // Parent is the message sender
+                    'start_time' => $content['date'].' '.$timeSlots[0],
+                    'end_time' => $content['date'].' '.$timeSlots[1],
+                    'status' => 'scheduled',
+                    'subject' => $content['subject'],
+                    'session_fee' => 0,  // Set default or get from message content
+                    'notes' => 'Booking created from chat'
+                ]);
             }
         }
 

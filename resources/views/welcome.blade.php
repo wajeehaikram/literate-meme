@@ -279,7 +279,7 @@
                             </svg>
                         </div>
                         <p class="mt-4 text-lg font-semibold leading-6 text-gray-900">Personalised learning approach</p>
-                        <p class="mt-3 text-base leading-7 text-gray-600">"What sets LearnScape apart is their personalized approach. They took the time to understand my child's learning style and created a tailored plan that addresses his specific needs. The results have been amazing!"</p>
+                        <p class="mt-3 text-base leading-7 text-gray-600">"What sets LearnScape apart is their personalised approach. They took the time to understand my child's learning style and created a tailored plan that addresses his specific needs. The results have been amazing!"</p>
                     </div>
                     <div class="mt-6 border-t border-gray-200 pt-4">
                         <p class="text-base font-semibold leading-7 text-gray-900">David Chen</p>

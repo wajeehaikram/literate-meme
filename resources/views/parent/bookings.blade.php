@@ -21,78 +21,104 @@
                     <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
                         <div class="border-b border-gray-200">
                             <nav class="flex space-x-8 px-6" aria-label="Tabs">
-                                <a href="#" class="border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                                <a href="{{ route('parent.bookings', ['tab' => 'upcoming']) }}" class="{{ request()->input('tab', 'upcoming') === 'upcoming' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
                                     Upcoming
                                 </a>
-                                <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                                <a href="{{ route('parent.bookings', ['tab' => 'past']) }}" class="{{ request()->input('tab') === 'past' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
                                     Past
                                 </a>
-                                <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                                <a href="{{ route('parent.bookings', ['tab' => 'cancelled']) }}" class="{{ request()->input('tab') === 'cancelled' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
                                     Cancelled
                                 </a>
                             </nav>
                         </div>
                         <div class="p-6 text-center text-gray-500">
-                            @if($upcoming->count())
-                                <ul class="divide-y divide-gray-200">
-                                    @foreach($upcoming as $booking)
-                                        <li class="p-4 flex flex-col sm:flex-row sm:items-center justify-between">
-                                            <div>
-                                                <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
-                                                <div class="text-gray-600 text-sm">
-                                                    {{ $booking->start_time->format('l, d M Y') }}
-                                                    at {{ $booking->start_time->format('H:i') }}
-                                                    - {{ $booking->end_time->format('H:i') }}
+                            @if(request()->input('tab', 'upcoming') === 'upcoming')
+                                @if($upcoming->count())
+                                    <ul class="divide-y divide-gray-200">
+                                        @foreach($upcoming->where('status', '!=', 'cancelled') as $booking)
+                                            <li class="p-4 flex flex-col sm:flex-row sm:items-center justify-between booking-item transition-opacity duration-500 mb-6 border-b border-gray-200" id="booking-{{ $booking->id }}">
+                                                <div class="flex-1 text-left">
+                                                    <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
+                                                    <div class="text-gray-600 text-sm">
+                                                        {{ $booking->start_time->format('l, d M Y') }}
+                                                        at {{ $booking->start_time->setTimezone('Europe/London')->format('H:i') }}
+                                                        - {{ $booking->end_time->format('H:i') }}
+                                                    </div>
+                                                    <div class="text-indigo-600 text-xs mt-1">Status: {{ ucfirst($booking->status) }}</div>
                                                 </div>
-                                                <div class="text-indigo-600 text-xs mt-1">Status: {{ ucfirst($booking->status) }}</div>
-                                            </div>
-                                            <div class="mt-2 sm:mt-0">
-                                                @if($booking->is_paid)
-                                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Paid</span>
-                                                @else
-                                                    <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Unpaid</span>
-                                                @endif
-                                            </div>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @else
-                                <p>You don't have any upcoming bookings.</p>
-                                <p class="mt-2 text-sm">Book a session with one of our qualified tutors to get started.</p>
+                                                <div class="flex items-center gap-2 mt-2 sm:mt-0">
+                                                    @if($booking->is_paid)
+                                                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Paid</span>
+                                                    @else
+                                                        <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Unpaid</span>
+                                                    @endif
+                                                    @if($booking->status === 'scheduled')
+                                                        <form action="{{ route('parent.cancelBooking', $booking->id) }}" method="POST" class="cancel-booking-form" data-booking-id="{{ $booking->id }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="ml-2 px-3 py-1 bg-red-600 text-gray-500 rounded hover:bg-red-700 transition-colors text-xs font-semibold shadow">Cancel</button>
+                                                        </form>
+                                                    @endif
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p>You don't have any upcoming bookings.</p>
+                                    <p class="mt-2 text-sm">Book a session with one of our qualified tutors to get started.</p>
+                                @endif
+                            @elseif(request()->input('tab') === 'past')
+                                @if($past->count())
+                                    <ul class="divide-y divide-gray-200">
+                                        @foreach($past->where('status', '!=', 'cancelled') as $booking)
+                                            <li class="p-4 flex flex-col sm:flex-row sm:items-center justify-between booking-item transition-opacity duration-500 mb-6 border-b border-gray-200" id="booking-{{ $booking->id }}">
+                                                <div class="flex-1 text-left">
+                                                    <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
+                                                    <div class="text-gray-600 text-sm">
+                                                        {{ $booking->start_time->format('l, d M Y') }}
+                                                        at {{ $booking->start_time->format('H:i') }}
+                                                        - {{ $booking->end_time->format('H:i') }}
+                                                    </div>
+                                                    <div class="text-indigo-600 text-xs mt-1">Status: {{ ucfirst($booking->status) }}</div>
+                                                </div>
+                                                <div class="flex items-center gap-2 mt-2 sm:mt-0">
+                                                    @if($booking->is_paid)
+                                                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Paid</span>
+                                                    @else
+                                                        <a href="{{ route('parent.payBooking', $booking->id) }}" class="px-2 py-1 bg-indigo-600 text-white rounded text-xs hover:bg-indigo-700 transition-colors">Pay Now</a>
+                                                    @endif
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p>You don't have any past bookings.</p>
+                                @endif
+                            @elseif(request()->input('tab') === 'cancelled')
+                                @if($cancelled->count())
+                                    <ul class="divide-y divide-gray-200">
+                                        @foreach($cancelled as $booking)
+                                            <li class="p-4 flex flex-col sm:flex-row sm:items-center justify-between booking-item transition-opacity duration-500 mb-6 border-b border-gray-200" id="booking-{{ $booking->id }}">
+                                                <div class="flex-1 text-left">
+                                                    <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
+                                                    <div class="text-gray-600 text-sm">
+                                                        {{ $booking->start_time->format('l, d M Y') }}
+                                                        at {{ $booking->start_time->format('H:i') }}
+                                                        - {{ $booking->end_time->format('H:i') }}
+                                                    </div>
+                                                    <div class="text-red-600 text-xs mt-1">Status: Cancelled</div>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p>You don't have any cancelled bookings.</p>
+                                @endif
                             @endif
                         </div>
                     </div>
                 </div>
-                <!-- Past Bookings -->
-                @if($past->count())
-                    <div class="mb-8">
-                        <h2 class="text-xl font-medium text-gray-800 mb-4">Past Sessions</h2>
-                        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                            <ul class="divide-y divide-gray-200">
-                                @foreach($past as $booking)
-                                    <li class="p-4 flex flex-col sm:flex-row sm:items-center justify-between">
-                                        <div>
-                                            <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
-                                            <div class="text-gray-600 text-sm">
-                                                {{ $booking->start_time->format('l, d M Y') }}
-                                                at {{ $booking->start_time->format('H:i') }}
-                                                - {{ $booking->end_time->format('H:i') }}
-                                            </div>
-                                            <div class="text-indigo-600 text-xs mt-1">Status: {{ ucfirst($booking->status) }}</div>
-                                        </div>
-                                        <div class="mt-2 sm:mt-0">
-                                            @if($booking->is_paid)
-                                                <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Paid</span>
-                                            @else
-                                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Unpaid</span>
-                                            @endif
-                                        </div>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                @endif
                 <!-- Booking Tips -->
                 <div class="bg-indigo-50 rounded-lg p-6 shadow-sm">
                     <h3 class="text-lg font-medium text-indigo-800 mb-2">Booking Tips</h3>
@@ -108,3 +134,21 @@
     </div>
 </div>
 @endsection
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.cancel-booking-form').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if(confirm('Are you sure you want to cancel this booking?')) {
+                var bookingId = this.getAttribute('data-booking-id');
+                var bookingItem = document.getElementById('booking-' + bookingId);
+                bookingItem.style.opacity = '0';
+                setTimeout(() => {
+                    this.submit();
+                }, 400);
+            }
+        });
+    });
+});
+</script>

@@ -83,8 +83,9 @@ Route::get('/parent/messages', [MessagesController::class, 'index'])->name('pare
 
 Route::get('/parent/bookings', [BookingsController::class, 'parentBookings'])->name('parent.bookings')->middleware('auth');
 
+Route::get('/parent/pay-booking/{id}', [\App\Http\Controllers\PaymentController::class, 'payBooking'])->name('parent.payBooking')->middleware('auth');
 Route::get('/parent/payments', [App\Http\Controllers\PaymentController::class, 'showPayments'])->name('parent.payments')->middleware('auth');
-Route::get('/parent/add-card', [App\Http\Controllers\PaymentController::class, 'showAddCard'])->name('parent.add-card')->middleware('auth');
+// Removed: Route::get('/parent/add-card', [App\Http\Controllers\PaymentController::class, 'showAddCard'])->name('parent.add-card')->middleware('auth');
 
 Route::get('/parent/find-tutors', function() {
     return 'Find Tutors';
@@ -122,7 +123,7 @@ Route::middleware('auth')->group(function () {
 
 // Payment Routes
 Route::post('/payment/intent', [App\Http\Controllers\PaymentController::class, 'createPaymentIntent'])->name('payment.intent');
-Route::post('/payment/store', [App\Http\Controllers\PaymentController::class, 'store'])->name('payment.store')->middleware('auth');
+// Removed: Route::post('/payment/store', [App\Http\Controllers\PaymentController::class, 'store'])->name('payment.store')->middleware('auth');
 Route::post('/stripe/webhook', [App\Http\Controllers\PaymentController::class, 'handleWebhook'])->name('stripe.webhook');
 
 Route::get('/stripe', [StripeController::class, 'index'])->name('stripe.index');
@@ -130,3 +131,9 @@ Route::post('/stripe/charge', [StripeController::class, 'charge'])->name('stripe
 Route::get('/payment/success', function() {
     return view('payment.success');
 })->name('payment.success');
+
+// Bookings Cancel Route
+Route::delete('/bookings/{id}/cancel', [BookingsController::class, 'cancelBooking'])->name('bookings.cancel')->middleware('auth');
+
+// Parent Bookings Cancel Route
+Route::delete('/parent/bookings/{id}/cancel', [BookingsController::class, 'parentCancelBooking'])->name('parent.cancelBooking')->middleware('auth');

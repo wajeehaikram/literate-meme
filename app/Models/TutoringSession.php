@@ -39,6 +39,18 @@ class TutoringSession extends Model
     {
         return $this->belongsTo(User::class, 'parent_id');
     }
+
+    // Add this relationship if using child records
+    public function child()
+    {
+        return $this->belongsTo(User::class, 'child_id'); // Assuming child is stored as child_id
+    }
+
+    // Existing student relationship
+    public function student()
+    {
+        return $this->belongsTo(User::class, 'student_id');
+    }
     
     public function tutorProfile(): BelongsTo
     {

@@ -67,16 +67,35 @@
                                         </div>
                                         @if($bookingData['status'] === 'pending' && Auth::id() == $message->receiver_id)
                                             <div class="mt-2">
-                                                <form action="{{ route('messages.bookingResponse', $message->id) }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    <input type="hidden" name="response" value="accepted">
-                                                    <button type="submit" class="btn btn-success btn-sm">Accept</button>
-                                                </form>
-                                                <form action="{{ route('messages.bookingResponse', $message->id) }}" method="POST" style="display:inline; margin-left: 5px;">
-                                                    @csrf
-                                                    <input type="hidden" name="response" value="declined">
-                                                    <button type="submit" class="btn btn-danger btn-sm">Decline</button>
-                                                </form>
+                                                @if($bookingData['status'] === 'pending' && Auth::id() == $message->receiver_id)
+                                                    <div class="mt-2">
+                                                        <div class="purple-action-box" style="background:#ede9fe;border:2px solid #6366f1;border-radius:10px;padding:16px 0 10px 0;display:inline-block;width:100%;max-width:350px;">
+                                                            <form action="{{ route('messages.bookingResponse', $message->id) }}" method="POST" style="display:inline;">
+                                                                @csrf
+                                                                <input type="hidden" name="response" value="accepted">
+                                                                <button type="submit" class="btn btn-sm font-bold text-lg px-5 py-2" style="background:#6366f1;color:#fff;border:2px solid #4f46e5;border-radius:6px;margin-right:8px;">Accept</button>
+                                                            </form>
+                                                            <form action="{{ route('messages.bookingResponse', $message->id) }}" method="POST" style="display:inline; margin-left: 5px;">
+                                                                @csrf
+                                                                <input type="hidden" name="response" value="declined">
+                                                                <button type="submit" class="btn btn-sm font-bold text-lg px-5 py-2" style="background:#ede9fe;color:#6366f1;border:2px solid #6366f1;border-radius:6px;">Decline</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="mt-2">
+                                                        <form action="{{ route('messages.bookingResponse', $message->id) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            <input type="hidden" name="response" value="accepted">
+                                                            <button type="submit" class="btn btn-success btn-sm font-bold text-lg px-5 py-2 bg-green-600 hover:bg-green-700 shadow-lg border-2 border-green-800">Accept</button>
+                                                        </form>
+                                                        <form action="{{ route('messages.bookingResponse', $message->id) }}" method="POST" style="display:inline; margin-left: 5px;">
+                                                            @csrf
+                                                            <input type="hidden" name="response" value="declined">
+                                                            <button type="submit" class="btn btn-danger btn-sm font-bold text-lg px-5 py-2 bg-red-600 hover:bg-red-700 shadow-lg border-2 border-red-800">Decline</button>
+                                                        </form>
+                                                    </div>
+                                                @endif
                                             </div>
                                         @endif
                                     </div>
