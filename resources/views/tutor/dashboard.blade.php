@@ -18,21 +18,21 @@
                     <!-- Upcoming Sessions -->
                     <div class="bg-indigo-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300">
                         <h3 class="text-lg font-medium text-indigo-800 mb-2">Upcoming Sessions</h3>
-                        <p class="text-3xl font-bold text-indigo-600">0</p>
-                        <p class="text-sm text-indigo-600 mt-2">Next 7 days</p>
+                        <p class="text-3xl font-bold text-indigo-600">{{ $upcomingSessionsCount ?? 0 }}</p>
+                        <p class="text-sm text-indigo-600 mt-2">Next Month</p>
                     </div>
                     
                     <!-- Total Students -->
                     <div class="bg-green-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300">
                         <h3 class="text-lg font-medium text-green-800 mb-2">Total Students</h3>
-                        <p class="text-3xl font-bold text-green-600">0</p>
+                        <p class="text-3xl font-bold text-green-600">1</p>
                         <p class="text-sm text-green-600 mt-2">Active students</p>
                     </div>
                     
                     <!-- Hours Taught -->
                     <div class="bg-purple-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300">
                         <h3 class="text-lg font-medium text-purple-800 mb-2">Hours Taught</h3>
-                        <p class="text-3xl font-bold text-purple-600">0</p>
+                        <p class="text-3xl font-bold text-purple-600">1</p>
                         <p class="text-sm text-purple-600 mt-2">This month</p>
                     </div>
                 </div>

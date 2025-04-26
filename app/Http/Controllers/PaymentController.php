@@ -155,9 +155,40 @@ class PaymentController extends Controller
         }
     }
 
-    public function payBooking($id)
+    public function payBooking(Request $request, $id = null)
     {
-        // TODO: Implement payment logic for booking with id $id
-        return view('parent.pay-booking', compact('id'));
+        if ($request->isMethod('post')) {
+            $bookingId = $request->input('booking_id', $id);
+            $user = auth()->user();
+            // Fetch booking details (replace with actual model and logic)
+            $booking = \App\Models\TutoringSession::findOrFail($bookingId);
+            $amount = $booking->price ?? 20; // fallback to 20 if not set
+
+            \Stripe\Stripe::setApiKey(config('stripe.secret'));
+            $session = \Stripe\Checkout\Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'gbp',
+                        'product_data' => [
+                            'name' => $booking->subject ?? 'Tutoring Session',
+                        ],
+                        'unit_amount' => $amount * 100,
+                    ],
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'customer_email' => $user->email,
+                'metadata' => [
+                    'booking_id' => $bookingId,
+                    'user_id' => $user->id,
+                ],
+                'success_url' => route('payment.success'),
+                'cancel_url' => url()->previous(),
+            ]);
+            return response()->json(['sessionId' => $session->id]);
+        }
+        // GET request: show the payment page
+        return view('parent.pay-booking', ['id' => $id]);
     }
 }

@@ -75,5 +75,11 @@ class BookingsController extends Controller
         $booking->update(['status' => 'cancelled']);
         return redirect()->route('parent.bookings', ['tab' => 'cancelled']);
     }
+    public function tutorCancelBooking($id)
+    {
+        $booking = TutoringSession::findOrFail($id);
+        $booking->update(['status' => 'cancelled']);
+        return redirect()->route('tutor.bookings', ['tab' => 'cancelled']);
+    }
 }
 

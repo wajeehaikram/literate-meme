@@ -37,7 +37,7 @@
                                 @if($upcoming->count())
                                     <ul class="divide-y divide-gray-200">
                                         @foreach($upcoming as $booking)
-                                            <li class="p-4 flex flex-col sm:flex-row sm:items-center justify-between">
+                                            <li class="p-4 flex flex-col sm:flex-row sm:items-center justify-between booking-item transition-opacity duration-500 mb-6 border-b border-gray-200" id="booking-{{ $booking->id }}">
                                                 <div class="flex-1 text-left">
                                                     <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
                                                     <div class="text-gray-600 text-sm">
@@ -46,7 +46,9 @@
                                                         - {{ $booking->end_time->format('H:i') }}
                                                     </div>
                                                     <div class="text-gray-600 text-sm">
-                                                        Student: {{ $booking->student->name ?? 'N/A' }}
+                                                        @if(isset($booking->student) && !empty($booking->student->name))
+                                                            Student: {{ $booking->student->name }}
+                                                        @endif
                                                     </div>
                                                     <div class="text-indigo-600 text-xs mt-1">Status: {{ ucfirst($booking->status) }}</div>
                                                 </div>
@@ -54,11 +56,13 @@
                                                     @if($booking->is_paid)
                                                         <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Paid</span>
                                                     @endif
-                                                    <form method="POST" action="{{ route('bookings.cancel', $booking->id) }}" class="mt-2 sm:mt-0">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="booking-cancel-btn ml-2 px-3 py-1 bg-red-600 text-grey rounded text-xs hover:bg-red-700 transition-colors duration-200 font-semibold shadow">Cancel</button>
-                                                    </form>
+                                                    @if($booking->status === 'scheduled')
+                                                        <form action="{{ route('tutor.cancelBooking', $booking->id) }}" method="POST" class="cancel-booking-form" data-booking-id="{{ $booking->id }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="ml-2 px-3 py-1 bg-red-600 text-gray-500 rounded hover:bg-red-700 transition-colors text-xs font-semibold shadow">Cancel</button>
+                                                        </form>
+                                                    @endif
                                                 </div>
                                             </li>
                                             @if(!$loop->last)
@@ -84,7 +88,7 @@
                                                     </div>
                                                     
                                                 <div class="flex items-center gap-2 mt-2 sm:mt-0">
-                                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Completed</span>
+                                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs flex justify-center">Completed</span>
                                                 </div>
                                             </li>
                                         @endforeach
@@ -104,17 +108,12 @@
                                                         at {{ $booking->start_time->format('H:i') }}
                                                         - {{ $booking->end_time->format('H:i') }}
                                                     </div>
-                                                    <div class="text-indigo-600 text-xs mt-1">Status: {{ ucfirst($booking->status) }}</div>
+                                                    <div class="text-indigo-600 text-xs mt-1">Status: {{ ucfirst($booking->status === 'completed' ? 'Completed' : $booking->status) }}</div>
                                                 </div>
                                                 <div class="flex items-center gap-2 mt-2 sm:mt-0">
                                                     @if($booking->is_paid)
                                                         <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Paid</span>
                                                     @endif
-                                                    <form method="POST" action="{{ route('bookings.cancel', $booking->id) }}" class="mt-2 sm:mt-0">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="booking-cancel-btn ml-2 px-3 py-1 bg-red-100 text-red-800 rounded text-xs hover:bg-red-200 transition-colors duration-200">Cancel Booking</button>
-                                                    </form>
                                                 </div>
                                             </li>
                                         @endforeach
@@ -142,3 +141,21 @@
     </div>
 </div>
 @endsection
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.cancel-booking-form').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if(confirm('Are you sure you want to cancel this booking?')) {
+                var bookingId = this.getAttribute('data-booking-id');
+                var bookingItem = document.getElementById('booking-' + bookingId);
+                bookingItem.style.opacity = '0';
+                setTimeout(() => {
+                    this.submit();
+                }, 400);
+            }
+        });
+    });
+});
+</script>

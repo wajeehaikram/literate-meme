@@ -80,7 +80,7 @@
                                                         at {{ $booking->start_time->format('H:i') }}
                                                         - {{ $booking->end_time->format('H:i') }}
                                                     </div>
-                                                    <div class="text-indigo-600 text-xs mt-1">Status: {{ ucfirst($booking->status) }}</div>
+                                                    <div class="text-green-600 text-xs mt-1 flex justify-center">Status: Past</div>
                                                 </div>
                                                 <div class="flex items-center gap-2 mt-2 sm:mt-0">
                                                     @if($booking->is_paid)

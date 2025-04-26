@@ -38,19 +38,12 @@ Route::get('/tutor/dashboard', function() {
     $user = Auth::user();
     $unreadMessages = collect();
     $recentMessages = collect();
-    if ($user) {
-        $unreadMessages = App\Models\Message::where('receiver_id', $user->id)
-            ->whereNull('read_at')
-            ->orderBy('created_at', 'desc')
-            ->get();
-        $recentMessages = App\Models\Message::with('sender')
-            ->where('receiver_id', $user->id)
-            ->orWhere('sender_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->limit(5)
-            ->get();
-    }
-    return view('tutor.dashboard', compact('unreadMessages', 'recentMessages'));
+    $upcomingSessionsCount = \App\Models\TutoringSession::where('tutor_id', $user->id)
+        ->where('start_time', '>=', now())
+        ->where('status', '!=', 'cancelled')
+        ->count();
+    // Optionally fetch other stats as needed
+    return view('tutor.dashboard', compact('unreadMessages', 'recentMessages', 'upcomingSessionsCount'));
 })->name('tutor.dashboard')->middleware('auth');
 
 Route::get('/tutor/messages', [MessagesController::class, 'index'])->name('tutor.messages')->middleware('auth');
@@ -73,10 +66,14 @@ Route::get('/tutor/sessions', function() {
 })->name('tutor.sessions')->middleware('auth');
 
 Route::get('/parent/dashboard', function() {
-    $tutors = App\Models\User::whereHas('tutorProfile')
-        ->with(['tutorProfile'])
-        ->get();
-    return view('parent.dashboard', compact('tutors'));
+    $user = Auth::user();
+    $tutors = \App\Models\User::whereHas('tutorProfile')->get();
+    $upcomingSessionsCount = \App\Models\TutoringSession::where('parent_id', $user->id)
+        ->where('start_time', '>=', now())
+        ->where('status', '!=', 'cancelled')
+        ->count();
+    // Optionally fetch other stats as needed
+    return view('parent.dashboard', compact('tutors', 'upcomingSessionsCount'));
 })->name('parent.dashboard')->middleware('auth');
 
 Route::get('/parent/messages', [MessagesController::class, 'index'])->name('parent.messages')->middleware('auth');
@@ -84,6 +81,7 @@ Route::get('/parent/messages', [MessagesController::class, 'index'])->name('pare
 Route::get('/parent/bookings', [BookingsController::class, 'parentBookings'])->name('parent.bookings')->middleware('auth');
 
 Route::get('/parent/pay-booking/{id}', [\App\Http\Controllers\PaymentController::class, 'payBooking'])->name('parent.payBooking')->middleware('auth');
+Route::post('/parent/pay-booking/{id}', [\App\Http\Controllers\PaymentController::class, 'payBooking'])->middleware('auth');
 Route::get('/parent/payments', [App\Http\Controllers\PaymentController::class, 'showPayments'])->name('parent.payments')->middleware('auth');
 // Removed: Route::get('/parent/add-card', [App\Http\Controllers\PaymentController::class, 'showAddCard'])->name('parent.add-card')->middleware('auth');
 
@@ -137,3 +135,5 @@ Route::delete('/bookings/{id}/cancel', [BookingsController::class, 'cancelBookin
 
 // Parent Bookings Cancel Route
 Route::delete('/parent/bookings/{id}/cancel', [BookingsController::class, 'parentCancelBooking'])->name('parent.cancelBooking')->middleware('auth');
+// Tutor Bookings Cancel Route
+Route::delete('/tutor/bookings/{id}/cancel', [BookingsController::class, 'tutorCancelBooking'])->name('tutor.cancelBooking')->middleware('auth');

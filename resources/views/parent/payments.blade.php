@@ -22,8 +22,48 @@
                             </nav>
                         </div>
                         
-                        <div class="p-6 text-center text-gray-500">
-                            <p>No transaction history available.</p>
+                        <div class="p-6">
+                            @if(isset($payments) && count($payments) > 0)
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        @foreach($payments as $payment)
+                                            <tr>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $payment->created_at->format('d M Y H:i') }}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                    @if($payment->booking)
+                                                        {{ $payment->booking->subject ?? 'Tutoring Session' }}<br>
+                                                        {{ $payment->booking->start_time ? $payment->booking->start_time->format('l, d M Y H:i') : '' }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">£{{ number_format($payment->amount, 2) }}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                                    @if($payment->status === 'succeeded')
+                                                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Paid</span>
+                                                    @elseif($payment->status === 'failed')
+                                                        <span class="px-2 py-1 bg-red-100 text-red-800 rounded text-xs">Failed</span>
+                                                    @else
+                                                        <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Pending</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                <div class="text-center text-gray-500">
+                                    <p>No transaction history available.</p>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
