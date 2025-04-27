@@ -34,28 +34,28 @@
                         <!-- Category 1 -->
                         <div class="bg-indigo-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 h-full">
                             <h3 class="text-lg font-medium text-indigo-800 mb-2">Lesson Materials</h3>
-                            <p class="text-gray-600 mb-4">Upload lesson plans, presentations, and teaching materials.</p>
-                            <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                            <p class="text-gray-600 mb-4">Find revision cards and teaching materials for students.</p>
+                            <a href="https://corbettmaths.com/revision-cards/" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
                                 Browse Category
-                            </button>
+                            </a>
                         </div>
                         
                         <!-- Category 2 -->
                         <div class="bg-green-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 h-full">
                             <h3 class="text-lg font-medium text-green-800 mb-2">Worksheets</h3>
-                            <p class="text-gray-600 mb-4">Share practice worksheets and exercises with your students.</p>
-                            <button class="text-green-600 hover:text-green-800 text-sm font-medium">
+                            <p class="text-gray-600 mb-4">Excellent worksheets and videos to use with your students.</p>
+                            <a href="https://corbettmaths.com/contents/" target="_blank" rel="noopener noreferrer" class="text-green-600 hover:text-green-800 text-sm font-medium">
                                 Browse Category
-                            </button>
+                            </a>
                         </div>
                         
                         <!-- Category 3 -->
                         <div class="bg-purple-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 h-full">
-                            <h3 class="text-lg font-medium text-purple-800 mb-2">Reference Materials</h3>
-                            <p class="text-gray-600 mb-4">Upload helpful reference guides and supplementary materials.</p>
-                            <button class="text-purple-600 hover:text-purple-800 text-sm font-medium">
+                            <h3 class="text-lg font-medium text-purple-800 mb-2">Workbooks</h3>
+                            <p class="text-gray-600 mb-4">5-a-day workbooks and supplementary materials.</p>
+                            <a href="https://corbettmaths.com/books/" target="_blank" rel="noopener noreferrer" class="text-purple-600 hover:text-purple-800 text-sm font-medium">
                                 Browse Category
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
