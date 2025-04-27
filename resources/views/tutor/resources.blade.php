@@ -12,18 +12,36 @@
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-medium text-gray-800">Your Resources</h2>
                         <div>
-                            <button class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300">
-                                Upload New Resource
-                            </button>
+                            <form id="upload-resource-form" action="{{ route('tutor.resources.upload') }}" method="POST" enctype="multipart/form-data" style="display:inline;">
+                                @csrf
+                                <input type="file" id="resource-file-input" name="resource_file" class="hidden" onchange="document.getElementById('upload-resource-form').submit();">
+                                <button type="button" onclick="document.getElementById('resource-file-input').click();" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-300">
+                                    Upload New Resource
+                                </button>
+                            </form>
                         </div>
                     </div>
                     
                     <!-- Resources List -->
                     <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                        <div class="p-6 text-center text-gray-500">
-                            <p>You haven't uploaded any resources yet.</p>
-                            <p class="mt-2 text-sm">Upload lesson materials, worksheets, and other resources to share with your students.</p>
-                        </div>
+                        @if(isset($resources) && count($resources) > 0)
+                            <ul class="divide-y divide-gray-200">
+                                @foreach($resources as $resource)
+                                    <li class="flex items-center justify-between px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <span class="text-indigo-700 font-medium">{{ $resource['name'] }}</span>
+                                            <span class="text-xs text-gray-400">Uploaded: {{ $resource['uploaded_at'] }}</span>
+                                        </div>
+                                        <a href="{{ asset('storage/' . $resource['path']) }}" target="_blank" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">View/Download</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <div class="p-6 text-center text-gray-500">
+                                <p>You haven't uploaded any resources yet.</p>
+                                <p class="mt-2 text-sm">Upload lesson materials, worksheets, and other resources to share with your students.</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 

@@ -137,3 +137,4 @@ Route::delete('/bookings/{id}/cancel', [BookingsController::class, 'cancelBookin
 Route::delete('/parent/bookings/{id}/cancel', [BookingsController::class, 'parentCancelBooking'])->name('parent.cancelBooking')->middleware('auth');
 // Tutor Bookings Cancel Route
 Route::delete('/tutor/bookings/{id}/cancel', [BookingsController::class, 'tutorCancelBooking'])->name('tutor.cancelBooking')->middleware('auth');
+Route::post('/tutor/resources/upload', [App\Http\Controllers\TutorController::class, 'uploadResource'])->name('tutor.resources.upload')->middleware('auth');

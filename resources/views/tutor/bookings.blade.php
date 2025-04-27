@@ -41,9 +41,12 @@
                                                 <div class="flex-1 text-left">
                                                     <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
                                                     <div class="text-gray-600 text-sm">
-                                                        {{ $booking->start_time->format('l, d M Y') }}
-                                                        at {{ $booking->start_time->format('H:i') }}
-                                                        - {{ $booking->end_time->format('H:i') }}
+                                                        {{ $booking->start_time->format('l, d M Y') }} at {{ $booking->start_time->format('H:i') }}
+                                                        @if($booking->start_time->format('H:i') === $booking->end_time->format('H:i'))
+                                                            <span class="text-red-500">(Invalid time range: please check booking duration)</span>
+                                                        @else
+                                                            - {{ $booking->end_time->format('H:i') }}
+                                                        @endif
                                                     </div>
                                                     <div class="text-gray-600 text-sm">
                                                         @if(isset($booking->student) && !empty($booking->student->name))
@@ -79,16 +82,20 @@
                                     <ul class="divide-y divide-gray-200">
                                         @foreach($past as $booking)
                                             <li class="p-4 flex flex-col sm:flex-row sm:items-center justify-between booking-item transition-opacity duration-500 mb-6 border-b border-gray-200" id="booking-{{ $booking->id }}">
-                                                <div class="flex-1 text-left">
-                                                    <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
-                                                    <div class="text-gray-600 text-sm">
-                                                        {{ $booking->start_time->format('l, d M Y') }}
-                                                        at {{ $booking->start_time->format('H:i') }}
-                                                        - {{ $booking->end_time->format('H:i') }}
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="flex items-center justify-center sm:justify-start mb-2">
+                                                        <span class="text-lg font-semibold text-gray-900 mr-2">{{ $booking->subject }}</span>
                                                     </div>
-                                                    
-                                                <div class="flex items-center gap-2 mt-2 sm:mt-0">
-                                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs flex justify-center">Completed</span>
+                                                    <div class="text-gray-600 text-sm mb-1">
+                                                        @if(!empty($booking->date))
+                                                            {{ $booking->date->format('l, d M Y') }} at {{ $booking->start_time }} - {{ $booking->end_time }}
+                                                        @elseif(!empty($booking->start_time))
+                                                            {{ $booking->start_time->format('l, d M Y') }} at {{ $booking->start_time->format('H:i') }} - {{ $booking->end_time->format('H:i') }}
+                                                        @else
+                                                            Date not available
+                                                        @endif
+                                                    </div>
+                                                    <div class="text-green-600 text-xs mt-1 flex justify-center">Status: Past</div>
                                                 </div>
                                             </li>
                                         @endforeach

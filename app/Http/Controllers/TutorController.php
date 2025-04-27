@@ -92,4 +92,37 @@ class TutorController extends Controller
         Log::info('Tutors result count', ['count' => $tutors->count()]);
         return view('parent.browse-tutors', compact('tutors'));
     }
+
+    /**
+     * Handle resource file upload for tutors.
+     */
+    public function uploadResource(Request $request)
+    {
+        $request->validate([
+            'resource_file' => 'required|file|mimes:pdf,doc,docx,ppt,pptx,txt|max:20480', // 20MB max
+        ]);
+        $user = Auth::user();
+        $file = $request->file('resource_file');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $path = $file->storeAs('tutor_resources/' . $user->id, $filename, 'public');
+        // Store file info in session for demo (replace with DB in production)
+        $resources = session()->get('uploaded_resources_' . $user->id, []);
+        $resources[] = [
+            'name' => $file->getClientOriginalName(),
+            'path' => $path,
+            'uploaded_at' => now()->toDateTimeString(),
+        ];
+        session()->put('uploaded_resources_' . $user->id, $resources);
+        return redirect()->route('tutor.resources')->with('success', 'Resource uploaded successfully!');
+    }
+
+    /**
+     * Show the resources page with uploaded files.
+     */
+    public function showResources()
+    {
+        $user = Auth::user();
+        $resources = session()->get('uploaded_resources_' . $user->id, []);
+        return view('tutor.resources', compact('resources'));
+    }
 }
