@@ -40,12 +40,35 @@
                             </div>
                             
                             <div>
-                                <label for="subjects" class="block text-sm font-medium text-gray-700">Subjects</label>
-                                <select name="subjects[]" id="subjects" multiple class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    @foreach($subjects as $subject)
-                                        <option value="{{ $subject->id }}" {{ in_array($subject->id, $tutorProfile->subjects ?? []) ? 'selected' : '' }}>{{ $subject->name }}</option>
-                                    @endforeach
-                                </select>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Subjects</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <label><input type="checkbox" name="subjects[]" value="Mathematics" {{ in_array('Mathematics', $tutorProfile->subjects ?? []) ? 'checked' : '' }}> Mathematics</label>
+                                    <label><input type="checkbox" name="subjects[]" value="English" {{ in_array('English', $tutorProfile->subjects ?? []) ? 'checked' : '' }}> English</label>
+                                    <label><input type="checkbox" name="subjects[]" value="Science" {{ in_array('Science', $tutorProfile->subjects ?? []) ? 'checked' : '' }}> Science</label>
+                                    <label><input type="checkbox" name="subjects[]" value="History" {{ in_array('History', $tutorProfile->subjects ?? []) ? 'checked' : '' }}> History</label>
+                                    <label><input type="checkbox" name="subjects[]" value="Geography" {{ in_array('Geography', $tutorProfile->subjects ?? []) ? 'checked' : '' }}> Geography</label>
+                                    <label><input type="checkbox" name="subjects[]" value="Computer Science" {{ in_array('Computer Science', $tutorProfile->subjects ?? []) ? 'checked' : '' }}> Computer Science</label>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Age Groups</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <label><input type="checkbox" name="age_groups[]" value="Primary School (4-11)" {{ in_array('Primary School (4-11)', $tutorProfile->age_groups ?? []) ? 'checked' : '' }}> Primary School (4-11)</label>
+                                    <label><input type="checkbox" name="age_groups[]" value="Secondary School (11-16)" {{ in_array('Secondary School (11-16)', $tutorProfile->age_groups ?? []) ? 'checked' : '' }}> Secondary School (11-16)</label>
+                                    <label><input type="checkbox" name="age_groups[]" value="Sixth Form (16-18)" {{ in_array('Sixth Form (16-18)', $tutorProfile->age_groups ?? []) ? 'checked' : '' }}> Sixth Form (16-18)</label>
+                                    <label><input type="checkbox" name="age_groups[]" value="University (18+)" {{ in_array('University (18+)', $tutorProfile->age_groups ?? []) ? 'checked' : '' }}> University (18+)</label>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Qualifications</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <label><input type="checkbox" name="qualifications[]" value="Bachelor's Degree" {{ in_array("Bachelor's Degree", $tutorProfile->qualifications ?? []) ? 'checked' : '' }}> Bachelor's Degree</label>
+                                    <label><input type="checkbox" name="qualifications[]" value="Master's Degree" {{ in_array("Master's Degree", $tutorProfile->qualifications ?? []) ? 'checked' : '' }}> Master's Degree</label>
+                                    <label><input type="checkbox" name="qualifications[]" value="PhD" {{ in_array("PhD", $tutorProfile->qualifications ?? []) ? 'checked' : '' }}> PhD</label>
+                                    <label><input type="checkbox" name="qualifications[]" value="Teaching Certificate" {{ in_array("Teaching Certificate", $tutorProfile->qualifications ?? []) ? 'checked' : '' }}> Teaching Certificate</label>
+                                </div>
                             </div>
                             
                             <div>

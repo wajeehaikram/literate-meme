@@ -24,6 +24,13 @@ class StripeController extends Controller
             "description" => "Test Payment",
         ]);
 
-        return back()->with('success', 'Payment successful!');
+        // Create payment record
+Payment::create([
+    'user_id' => auth()->id(),
+    'stripe_payment_id' => $charge->id,
+    'booking_id' => $request->booking_id  // Verify this matches actual bookings
+]);
+
+return back()->with('success', 'Payment successful!');
     }
 }

@@ -40,16 +40,6 @@
                     </div>
                 </div>
 
-                <!-- Upcoming Sessions -->
-                <div class="mb-8">
-                    <h2 class="text-xl font-medium text-gray-800 mb-4">Upcoming Sessions</h2>
-                    <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                        <div class="p-6 text-center text-gray-500">
-                            <p>No upcoming sessions scheduled.</p>
-                        </div>
-                    </div>
-                </div>
-
 
                 <!-- My Children Section -->
                 <div class="mb-8">

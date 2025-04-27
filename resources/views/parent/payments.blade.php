@@ -28,8 +28,9 @@
                                     <thead class="bg-gray-50">
                                         <tr>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transaction ID</th>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking Ref</th>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                         </tr>
                                     </thead>
@@ -37,23 +38,16 @@
                                         @foreach($payments as $payment)
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $payment->created_at->format('d M Y H:i') }}</td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                    @if($payment->booking)
-                                                        {{ $payment->booking->subject ?? 'Tutoring Session' }}<br>
-                                                        {{ $payment->booking->start_time ? $payment->booking->start_time->format('l, d M Y H:i') : '' }}
-                                                    @else
-                                                        -
-                                                    @endif
-                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-mono">{{ $payment->stripe_payment_id }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">£{{ number_format($payment->amount, 2) }}</td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">#{{ $payment->booking_id ?? 'N/A' }}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
                                                     @if($payment->status === 'succeeded')
-                                                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Paid</span>
-                                                    @elseif($payment->status === 'failed')
-                                                        <span class="px-2 py-1 bg-red-100 text-red-800 rounded text-xs">Failed</span>
+                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                                     @else
-                                                        <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Pending</span>
+                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                                                     @endif
+                                                    {{ ucfirst($payment->status) }}</span>
                                                 </td>
                                             </tr>
                                         @endforeach

@@ -21,8 +21,9 @@ class Payment extends Model
         return $this->belongsTo(User::class);
     }
 
+    // Added relationship to tutoring session
     public function booking()
     {
-        return $this->belongsTo(TutoringSession::class, 'booking_id');
+        return $this->belongsTo(Booking::class);
     }
 }

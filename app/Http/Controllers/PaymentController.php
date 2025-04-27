@@ -20,9 +20,15 @@ class PaymentController extends Controller
 
     public function showPayments()
     {
-        $stripe = new \Stripe\StripeClient(config('stripe.secret'));
-        $setupIntent = $stripe->setupIntents->create();
-        return view('parent.payments', compact('setupIntent'));
+        $user = auth()->user();
+        $payments = $user->payments()
+            ->with(['booking' => function($query) {
+                $query->with('tutor', 'subject');
+            }])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('parent.payments', compact('payments'));
     }
 
     public function createPaymentIntent(Request $request)
@@ -114,7 +120,8 @@ class PaymentController extends Controller
                         'amount' => $paymentIntent->amount / 100, // Convert back to decimal
                         'currency' => $paymentIntent->currency,
                         'status' => 'succeeded',
-                        'description' => 'Payment processed successfully'
+                        'description' => 'Payment processed successfully',
+                        'booking_id' => $paymentIntent->metadata->booking_id ?? null
                     ]);
                     $payment->save();
 
@@ -136,7 +143,8 @@ class PaymentController extends Controller
                         'amount' => $paymentIntent->amount / 100,
                         'currency' => $paymentIntent->currency,
                         'status' => 'failed',
-                        'description' => $paymentIntent->last_payment_error ?? 'Payment failed'
+                        'description' => $paymentIntent->last_payment_error ?? 'Payment failed',
+                        'booking_id' => $paymentIntent->metadata->booking_id ?? null
                     ]);
                     $payment->save();
 
@@ -186,9 +194,9 @@ class PaymentController extends Controller
                 'success_url' => route('payment.success'),
                 'cancel_url' => url()->previous(),
             ]);
+            // Removed misplaced return statement outside of class methods
             return response()->json(['sessionId' => $session->id]);
         }
-        // GET request: show the payment page
         return view('parent.pay-booking', ['id' => $id]);
     }
 }

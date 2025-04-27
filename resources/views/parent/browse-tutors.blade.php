@@ -259,7 +259,7 @@
                 // Add button press effect
                 this.classList.add('scale-95');
                 
-                // Delay form submission for transition effect
+                // Transition effect
                 setTimeout(function() {
                     filterForm.submit();
                 }, 400);
