@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TutoringSession;
+
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
@@ -18,17 +20,30 @@ class PaymentController extends Controller
         Stripe::setApiKey(config('stripe.secret'));
     }
 
-    public function showPayments()
+    public function showPendingPayments()
     {
         $user = auth()->user();
-        $payments = $user->payments()
-            ->with(['booking' => function($query) {
-                $query->with('tutor', 'subject');
-            }])
-            ->orderBy('created_at', 'desc')
+        $sessions = TutoringSession::where('parent_id', $user->id)
+            ->with(['tutor', 'tutorProfile'])
+            ->where('end_time', '<', now())
+            ->where('is_paid', false)
+            ->orderBy('start_time', 'desc')
             ->get();
 
-        return view('parent.payments', compact('payments'));
+        return view('parent.payments', ['pendingSessions' => $sessions]);
+    }
+
+    public function showCompletedPayments()
+    {
+        $user = auth()->user();
+        $sessions = TutoringSession::where('parent_id', $user->id)
+            ->with(['tutor', 'tutorProfile'])
+            ->where('end_time', '<', now())
+            ->where('is_paid', true)
+            ->orderBy('start_time', 'desc')
+            ->get();
+
+        return view('parent.completed-payments', ['completedSessions' => $sessions]);
     }
 
     public function createPaymentIntent(Request $request)
@@ -111,7 +126,6 @@ class PaymentController extends Controller
             switch ($event->type) {
                 case 'payment_intent.succeeded':
                     $paymentIntent = $event->data->object;
-                    
                     // Save payment record to database
                     $payment = new \App\Models\Payment([
                         'user_id' => $paymentIntent->metadata->user_id,
@@ -119,13 +133,19 @@ class PaymentController extends Controller
                         'stripe_payment_method_id' => $paymentIntent->payment_method,
                         'amount' => $paymentIntent->amount / 100, // Convert back to decimal
                         'currency' => $paymentIntent->currency,
-                        'status' => 'succeeded',
                         'description' => 'Payment processed successfully',
                         'booking_id' => $paymentIntent->metadata->booking_id ?? null
                     ]);
                     $payment->save();
-
-                    Log::info('Payment succeeded and saved', [
+                    // Mark the related TutoringSession as paid
+                    if (!empty($paymentIntent->metadata->booking_id)) {
+                        $session = \App\Models\TutoringSession::find($paymentIntent->metadata->booking_id);
+                        if ($session) {
+                            $session->is_paid = true;
+                            $session->save();
+                        }
+                    }
+                    \Log::info('Payment succeeded and saved', [
                         'amount' => $paymentIntent->amount,
                         'payment_id' => $paymentIntent->id,
                         'user_id' => $paymentIntent->metadata->user_id
@@ -170,7 +190,9 @@ class PaymentController extends Controller
             $user = auth()->user();
             // Fetch booking details (replace with actual model and logic)
             $booking = \App\Models\TutoringSession::findOrFail($bookingId);
-            $amount = $booking->price ?? 20; // fallback to 20 if not set
+            // Fetch the hourly rate from the related tutor profile
+            $hourlyRate = $booking->tutorProfile->hourly_rate ?? 20; // fallback to 20 if not set
+            $amount = $hourlyRate;
 
             \Stripe\Stripe::setApiKey(config('stripe.secret'));
             $session = \Stripe\Checkout\Session::create([

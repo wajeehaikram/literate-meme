@@ -19,14 +19,14 @@ class TutoringSession extends Model
         'status',
         'subject',
         'notes',
-        'session_fee',
+        // 'session_fee',
         'is_paid'
     ];
     
     protected $casts = [
         'start_time' => 'datetime',
         'end_time' => 'datetime',
-        'session_fee' => 'decimal:2',
+        // 'session_fee' => 'decimal:2',
         'is_paid' => 'boolean'
     ];
     

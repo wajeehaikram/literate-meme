@@ -30,7 +30,7 @@ class BookingsController extends Controller
                 $query->where('status', 'scheduled')
                       ->orWhere('status', 'completed');
             })
-            ->where('start_time', '<', now())
+            ->where('end_time', '<', now())
             ->orderByDesc('start_time')
             ->get();
         // Get cancelled bookings
@@ -57,7 +57,7 @@ class BookingsController extends Controller
         $past = TutoringSession::with(['child', 'student'])
             ->where('parent_id', $user->id)
             ->where('status', 'scheduled')
-            ->where('start_time', '<', now())
+            ->where('end_time', '<', now())
             ->orderByDesc('start_time')
             ->get();
         // Get cancelled bookings

@@ -45,14 +45,13 @@
                                                         at {{ $booking->start_time->setTimezone('Europe/London')->format('H:i') }}
                                                         - {{ $booking->end_time->format('H:i') }}
                                                     </div>
+                                                    <div class="text-sm text-gray-500 mt-1">
+                                                        Tutor: {{ $booking->tutor->name }}
+                                                    </div>
                                                     <div class="text-indigo-600 text-xs mt-1">Status: {{ ucfirst($booking->status) }}</div>
                                                 </div>
                                                 <div class="flex items-center gap-2 mt-2 sm:mt-0">
-                                                    @if($booking->is_paid)
-                                                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Paid</span>
-                                                    @else
-                                                        <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Unpaid</span>
-                                                    @endif
+
                                                     @if($booking->status === 'scheduled')
                                                         <form action="{{ route('parent.cancelBooking', $booking->id) }}" method="POST" class="cancel-booking-form" data-booking-id="{{ $booking->id }}">
                                                             @csrf
@@ -80,13 +79,14 @@
                                                         at {{ $booking->start_time->format('H:i') }}
                                                         - {{ $booking->end_time->format('H:i') }}
                                                     </div>
+                                                    <div class="text-sm text-gray-500 mt-1">
+                                                        Tutor: {{ $booking->tutor->name }}
+                                                    </div>
                                                     <div class="text-green-600 text-xs mt-1 flex justify-center">Status: Past</div>
                                                 </div>
                                                 <div class="flex items-center gap-2 mt-2 sm:mt-0">
                                                     @if($booking->is_paid)
                                                         <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Paid</span>
-                                                    @else
-                                                        <a href="{{ route('parent.payBooking', $booking->id) }}" class="px-2 py-1 bg-indigo-600 text-white rounded text-xs hover:bg-indigo-700 transition-colors">Pay Now</a>
                                                     @endif
                                                 </div>
                                             </li>
@@ -106,6 +106,9 @@
                                                         {{ $booking->start_time->format('l, d M Y') }}
                                                         at {{ $booking->start_time->format('H:i') }}
                                                         - {{ $booking->end_time->format('H:i') }}
+                                                    </div>
+                                                    <div class="text-sm text-gray-500 mt-1">
+                                                        Tutor: {{ $booking->tutor->name }}
                                                     </div>
                                                     <div class="text-red-600 text-xs mt-1">Status: Cancelled</div>
                                                 </div>

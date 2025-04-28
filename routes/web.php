@@ -82,7 +82,8 @@ Route::get('/parent/bookings', [BookingsController::class, 'parentBookings'])->n
 
 Route::get('/parent/pay-booking/{id}', [\App\Http\Controllers\PaymentController::class, 'payBooking'])->name('parent.payBooking')->middleware('auth');
 Route::post('/parent/pay-booking/{id}', [\App\Http\Controllers\PaymentController::class, 'payBooking'])->middleware('auth');
-Route::get('/parent/payments', [App\Http\Controllers\PaymentController::class, 'showPayments'])->name('parent.payments')->middleware('auth');
+Route::get('/parent/payments', [App\Http\Controllers\PaymentController::class, 'showPendingPayments'])->name('parent.payments')->middleware('auth');
+Route::get('/parent/payments/completed', [App\Http\Controllers\PaymentController::class, 'showCompletedPayments'])->name('parent.payments.completed')->middleware('auth');
 // Removed: Route::get('/parent/add-card', [App\Http\Controllers\PaymentController::class, 'showAddCard'])->name('parent.add-card')->middleware('auth');
 
 Route::get('/parent/find-tutors', function() {
