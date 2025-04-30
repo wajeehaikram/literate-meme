@@ -36,6 +36,13 @@
                 </div>
                 
                 <div>
+                    <label for="hourly_rate" class="block mb-2 text-sm font-medium text-gray-900">Hourly Rate (£/hour)</label>
+                    <input type="number" name="hourly_rate" id="hourly_rate" step="0.01" min="0" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" value="{{ old('hourly_rate') }}" required>
+                    @error('hourly_rate')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div>
                     <label for="bio" class="block mb-2 text-sm font-medium text-gray-900">Bio</label>
                     <textarea name="bio" id="bio" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5">{{ old('bio') }}</textarea>
                     @error('bio')

@@ -25,13 +25,22 @@
                                         $unreadCount = $convoMessages->where('is_read', false)
                                             ->where('receiver_id', Auth::id())
                                             ->count();
+                                        $isBooking = false;
+                                        $decoded = json_decode($lastMessage->content, true);
+                                        if (is_array($decoded) && (($decoded['type'] ?? null) === 'booking_suggestion' || ($decoded['type'] ?? null) === 'suggestion')) {
+                                            $isBooking = true;
+                                        }
                                     @endphp
                                     @if($otherUser)
                                         <a href="{{ route('messages.show', $otherUser->id) }}" class="block hover:bg-gray-50 transition duration-150">
                                             <div class="p-4 flex justify-between items-center">
                                                 <div class="flex-1 min-w-0">
                                                     <p class="text-base font-bold text-indigo-800 truncate mb-1">{{ $otherUser->name }}</p>
-                                                    <p class="text-sm text-gray-500 truncate">{{ Str::limit($lastMessage->content, 50) }}</p>
+                                                    @if($isBooking)
+                                                        <p class="text-sm text-gray-500 truncate">New booking</p>
+                                                    @else
+                                                        <p class="text-sm text-gray-500 truncate">{{ Str::limit($lastMessage->content, 50) }}</p>
+                                                    @endif
                                                     <p class="text-xs text-gray-400 mt-1">{{ $lastMessage->created_at->diffForHumans() }}</p>
                                                 </div>
                                                 @if($unreadCount > 0)

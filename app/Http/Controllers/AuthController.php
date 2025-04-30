@@ -74,8 +74,8 @@ class AuthController extends Controller
             'bio' => $request->bio,
             'subjects' => $request->subjects,
             'age_groups' => $request->age_groups,
-
             'qualifications' => $request->qualifications,
+            'hourly_rate' => $request->hourly_rate,
         ]);
 
         Auth::login($user);

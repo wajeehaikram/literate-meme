@@ -68,61 +68,38 @@
                                 @endforeach
                             </div>
                         </div>
-                    @elseif($pendingSessions->count())
-                        <div class="space-y-8">
-                            <!-- Pending Payments Section -->
-                            <div>
-                                <h2 class="text-2xl font-bold text-gray-800 mb-6">Pending Payments</h2>
-                                @foreach($pendingSessions as $session)
-                                    <div class="bg-white rounded-lg shadow p-6 mb-6">
-                                        <div class="flex justify-between items-start mb-4">
-                                            <div>
-                                                <h3 class="text-lg font-semibold text-gray-800">{{ $session->tutor->name }}</h3>
-                                                <p class="text-gray-600">{{ $session->tutorProfile->subject }}</p>
+                    @elseif($sessions->count())
+                        <div class="w-full flex justify-center">
+                            <div class="w-full divide-y divide-gray-200">
+                                @foreach($sessions as $session)
+                                    <div class="flex flex-col sm:flex-row sm:items-center px-6 py-6 border-b-2 border-gray-200 last:border-b-0">
+                                        <div class="flex-1 text-center sm:text-left">
+                                            <div class="font-semibold text-gray-800 text-lg mb-1">{{ $session->subject }}</div>
+                                            <div class="text-gray-600 text-sm mb-1">
+                                                {{ $session->start_time->format('l, d M Y H:i') }} - {{ $session->end_time->format('H:i') }}
                                             </div>
-                                            <span class="text-sm font-medium text-yellow-600">
-                                                Pending Payment
-                                            </span>
+                                            <div class="text-sm text-gray-500 mt-1">
+                                                Tutor: {{ $session->tutor->name }}
+                                            </div>
+                                            <div class="text-sm text-gray-700 mt-1">
+                                                Hourly Rate: <span class="font-semibold">£{{ number_format($session->tutorProfile->hourly_rate, 2) }}</span>
+                                            </div>
                                         </div>
-                                        <div class="grid grid-cols-2 gap-4 text-sm">
-                                            <div>
-                                                <p class="text-gray-600">{{ $session->start_time->format('M j, Y g:i A') }} - {{ $session->end_time->format('g:i A') }}</p>
-                                                <p class="text-gray-900 font-medium">£{{ number_format($session->tutorProfile->hourly_rate, 2) }}</p>
-                                            </div>
-                                            <div class="text-right">
-                                                <a href="{{ route('parent.payBooking', $session->id) }}" class="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">
-                                                    Complete Payment
+                                        <div class="flex items-center gap-2 mt-4 sm:mt-0 sm:justify-end">
+                                            @if($session->is_paid)
+                                                <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">
+                                                    Paid
+                                                </span>
+                                            @else
+                                                <a href="{{ route('parent.payBooking', $session->id) }}" class="px-4 py-2 bg-indigo-600 text-white rounded text-xs hover:bg-indigo-700 transition-colors">
+                                                    Pay Now
                                                 </a>
-                                            </div>
+                                            @endif
                                         </div>
                                     </div>
-                                @empty
-                                    <p class="text-gray-500">No pending payments</p>
-                                @endforelse
-                            </div>
-
-                            <!-- Completed Payments Section -->
-                            <div>
-                                <h2 class="text-2xl font-bold text-gray-800 mb-6">Completed Payments</h2>
-                                @forelse($completedSessions as $session)
-                                    <div class="bg-white rounded-lg shadow p-6 mb-6">
-                                        <div class="flex justify-between items-start mb-4">
-                                            <div>
-                                                <h3 class="text-lg font-semibold text-gray-800">{{ $session->tutor->name }}</h3>
-                                                <p class="text-gray-600">{{ $session->tutorProfile->subject }}</p>
-                                            </div>
-                                            <span class="text-sm font-medium text-green-600">
-                                                Paid
-                                            </span>
-                                        </div>
-                                        <div class="text-sm">
-                                            <p class="text-gray-600">{{ $session->start_time->format('M j, Y g:i A') }} - {{ $session->end_time->format('g:i A') }}</p>
-                                            <p class="text-gray-900 font-medium mt-2">£{{ number_format($session->tutorProfile->hourly_rate, 2) }}</p>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <p class="text-gray-500">No completed payments</p>
-                                @endforelse
+                                    
+                                @endforeach
+                                
                             </div>
                         </div>
                     @endif

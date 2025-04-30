@@ -41,9 +41,7 @@
                                                 <div class="flex-1 text-left">
                                                     <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
                                                     <div class="text-gray-600 text-sm">
-                                                        {{ $booking->start_time->format('l, d M Y') }}
-                                                        at {{ $booking->start_time->setTimezone('Europe/London')->format('H:i') }}
-                                                        - {{ $booking->end_time->format('H:i') }}
+                                                        {{ $booking->start_time->format('l, d M Y') }} at {{ $booking->start_time->format('H:i') }} - {{ $booking->end_time->format('H:i') }}
                                                     </div>
                                                     <div class="text-sm text-gray-500 mt-1">
                                                         Tutor: {{ $booking->tutor->name }}
@@ -75,9 +73,7 @@
                                                 <div class="flex-1 text-left">
                                                     <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
                                                     <div class="text-gray-600 text-sm">
-                                                        {{ $booking->start_time->format('l, d M Y') }}
-                                                        at {{ $booking->start_time->format('H:i') }}
-                                                        - {{ $booking->end_time->format('H:i') }}
+                                                        {{ $booking->start_time->format('l, d M Y') }} at {{ $booking->start_time->format('H:i') }} - {{ $booking->end_time->format('H:i') }}
                                                     </div>
                                                     <div class="text-sm text-gray-500 mt-1">
                                                         Tutor: {{ $booking->tutor->name }}
@@ -103,9 +99,7 @@
                                                 <div class="flex-1 text-left">
                                                     <div class="font-semibold text-gray-800">{{ $booking->subject ?? 'Tutoring Session' }}</div>
                                                     <div class="text-gray-600 text-sm">
-                                                        {{ $booking->start_time->format('l, d M Y') }}
-                                                        at {{ $booking->start_time->format('H:i') }}
-                                                        - {{ $booking->end_time->format('H:i') }}
+                                                        {{ $booking->start_time->format('l, d M Y') }} at {{ $booking->start_time->format('H:i') }} - {{ $booking->end_time->format('H:i') }}
                                                     </div>
                                                     <div class="text-sm text-gray-500 mt-1">
                                                         Tutor: {{ $booking->tutor->name }}

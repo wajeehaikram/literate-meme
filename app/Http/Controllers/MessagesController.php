@@ -119,7 +119,13 @@ class MessagesController extends Controller
             }
         }
 
-        return view('messages.show', compact('messages', 'otherUser', 'schedule'));
+        // If the current user is a tutor and the other user is a parent, fetch the parent's children
+        $children = null;
+        if (Auth::user()->user_type === 'tutor' && $otherUser->user_type === 'parent') {
+            $children = $otherUser->children;
+        }
+
+        return view('messages.show', compact('messages', 'otherUser', 'schedule', 'children'));
     }
 
     // Compose method removed as we're using direct chat instead
@@ -256,12 +262,12 @@ class MessagesController extends Controller
     {
         // Map your time periods to start/end times
         $map = [
-            'pre_12pm' => ['09:00:00', '12:00:00'],
-            '12_-_5pm' => ['12:00:00', '17:00:00'],
-            'after_5pm' => ['17:00:00', '21:00:00'],
+            'pre_12pm' => ['09:00:00', '10:00:00'],
+            '12_-_5pm' => ['12:00:00', '13:00:00'],
+            'after_5pm' => ['17:00:00', '18:00:00'],
         ];
         if (isset($map[$period])) return $map[$period];
-        if (preg_match('/(\d{1,2}:\d{2}) ?[ap]m ?- ?(\d{1,2}:\d{2}) ?[ap]m/i', $period, $m)) {
+        if (preg_match('/^(\d{2}:\d{2})-(\d{2}:\d{2})$/', $period, $m)) {
             return [$m[1], $m[2]];
         }
         return ['09:00:00', '10:00:00']; // fallback

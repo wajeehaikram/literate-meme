@@ -182,16 +182,17 @@
     <div class="booking-flex">
         <form id="suggestBookingForm" class="booking-form" method="POST" action="{{ route('messages.suggestBooking') }}">
             @csrf
-            <input type="hidden" name="receiver_id" value="{{ $otherUser->id }}" />
-            <div class="booking-row">
-                <label for="child_id" class="booking-label">Select Child</label>
-                <select id="child_id" name="child_id" class="form-select w-full rounded border-indigo-400 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 shadow-sm py-2 px-3 text-base text-gray-800 bg-white transition duration-150 ease-in-out" required style="margin-bottom: 1rem;">
-                    <option value="" disabled selected hidden>Choose a child</option>
-                    @foreach(Auth::user()->children as $child)
-                        <option value="{{ $child->id }}">{{ $child->name }} ({{ $child->year_group }})</option>
-                    @endforeach
-                </select>
-            </div>
+            <input type="hidden" name="receiver_id" value="{{ $otherUser->id }}">
+            <label for="child_id" class="booking-label">Select Child</label>
+            <select id="child_id" name="child_id" class="form-select w-full rounded border-indigo-400 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 shadow-sm py-2 px-3 text-base text-gray-800 bg-white transition duration-150 ease-in-out" required style="margin-bottom: 1rem;">
+                <option value="" disabled selected hidden>Choose a child</option>
+                @php
+                    $childList = isset($children) && $children ? $children : (Auth::user()->children ?? []);
+                @endphp
+                @foreach($childList as $child)
+                    <option value="{{ $child->id }}">{{ $child->name }} ({{ $child->year_group }})</option>
+                @endforeach
+            </select>
             <div class="booking-row">
                 <label for="subject" class="booking-label">Select Subject</label>
                 <select id="subject" name="subject" class="form-select w-full rounded border-indigo-400 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 shadow-sm py-2 px-3 text-base text-gray-800 bg-white transition duration-150 ease-in-out" required disabled style="margin-bottom: 1rem;">
@@ -269,7 +270,7 @@
     </div>
 </div>
 <script>
-const childSubjects = @json(Auth::user()->children->mapWithKeys(function($child) {
+const childSubjects = @json(collect($childList)->mapWithKeys(function($child) {
     return [$child->id => array_keys($child->subjects ?? [])];
 }));
 
